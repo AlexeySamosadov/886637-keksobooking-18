@@ -1,7 +1,10 @@
 'use strict';
+
 var advertPin = document.querySelector('.map__pins');
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
+var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
+var fragmentPin = document.createDocumentFragment();
 
 var generateCordinate = function () {
   return Math.round(Math.random() * 1000) + ', ' + Math.round(Math.random() * 1000);
@@ -64,15 +67,6 @@ var generatePhotos = function () {
   return generatedPhotos;
 };
 
-/* var generateMapCordinateY = function () {
-  var mapCordinateY = 0;
-
-  while (mapCordinateY < 130) {
-    mapCordinateY = Math.round(Math.random() * 630);
-  }
-  return mapCordinateY;
-};*/
-
 var generateMapCordinateX = function () {
   return Math.round(Math.random() * 99 + 1);
 };
@@ -116,8 +110,6 @@ var generateArray = function () {
 };
 
 var appartments = generateArray();
-var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
-var fragmentPin = document.createDocumentFragment();
 
 for (var i = 0; i < 8; i++) {
   var newPin = templatePin.cloneNode(true);
