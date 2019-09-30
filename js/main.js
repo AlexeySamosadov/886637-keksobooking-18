@@ -11,8 +11,11 @@ var init = function () {
 };
 
 var randomNumber = function(minNumber, maxNumber) {
-  if (arguments.length === 2) {
-    return Math.round(Math.random() * (maxNumber - minNumber) + minNumber);
+  if (arguments.length > 2) {
+    console.log('нельзя задавать больше двух аргументов в функции randomNumber');
+    return 0;
+  } else if (arguments.length === 2) {
+    return Math.floor(Math.random() * (maxNumber + 1 - minNumber) + minNumber);
   } else if (arguments.length === 1) {
     return Math.round(Math.random() * minNumber);
   }
