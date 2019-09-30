@@ -2,16 +2,31 @@
 
 var advertPin = document.querySelector('.map__pins');
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 var fragmentPin = document.createDocumentFragment();
 
+var init = function () {
+  map.classList.remove('map--faded');
+  advertPin.appendChild(fragmentPin);
+};
+
+var randomNumber = function(minNumber, maxNumber) {
+  if (arguments.length === 2) {
+    return Math.round(Math.random() * (maxNumber - minNumber) + minNumber);
+  } else if (arguments.length === 1) {
+    return Math.round(Math.random() * minNumber);
+  }
+  else {
+    return Math.round(Math.random());
+  }
+};
+
 var generateCordinate = function () {
-  return Math.round(Math.random() * 1000) + ', ' + Math.round(Math.random() * 1000);
+  return randomNumber(1000) + ', ' + randomNumber(1000);
 };
 
 var generatePrice = function () {
-  return Math.round(Math.random() * 10000);
+  return randomNumber(10000);
 };
 
 var cardTitles = ['Новая квартира около метро', 'Ретро квартира', 'Современная квартира Аригато', 'Уютная комната в центре Токио', 'Новый евроремонт', 'Отель с видом на Башню', 'Комната у парка', 'Эксклюзивный Пент-Хаус'];
@@ -25,28 +40,27 @@ var cardsDiscription = [
   'Стильная, современная и очень теплая квартира рядом с Киевским вокзалом. Дом находится во дворе, что обеспечивает тишину. Квартира - студия, в ней есть всё необходимое для комфортного проживания.'
 ];
 
-
 var generateFlat = function () {
   var flatType = ['palace', 'flat', 'house', 'bungalo'];
-  return flatType[Math.round(Math.random() * 4)];
+  return flatType[randomNumber(4)];
 };
 
 var generateRooms = function () {
-  return Math.round(Math.random() * 4 + 1);
+  return randomNumber(1,5);
 };
 
 var generateGuestNumber = function () {
-  return Math.round(Math.random() * 7);
+  return randomNumber(7);
 };
 
 var generateCheckInOutTime = function () {
   var checkInTimes = ['12:00', '13:00', '14:00'];
-  return checkInTimes[Math.round(Math.random() * 2)];
+  return checkInTimes[randomNumber(2)];
 };
 
 var generateFeatures = function () {
   var featuresTemplate = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-  var arrayLength = Math.round(Math.random() * 5);
+  var arrayLength = randomNumber(5);
   var generatedFeatures = [];
 
   for (var i = 0; i < arrayLength; i++) {
@@ -57,7 +71,7 @@ var generateFeatures = function () {
 };
 
 var generatePhotos = function () {
-  var arrayLength = Math.round(Math.random() * 15);
+  var arrayLength = randomNumber(15);
   var generatedPhotos = [];
 
   for (var i = 0; i < arrayLength; i++) {
@@ -68,11 +82,11 @@ var generatePhotos = function () {
 };
 
 var generateMapCordinateX = function () {
-  return Math.round(Math.random() * 99 + 1);
+  return randomNumber(1, 100);
 };
 
 var generateMapCordinateY = function () {
-  return Math.round(Math.random() * 500 + 130);
+  return randomNumber(130, 630);
 };
 
 var generateArray = function () {
@@ -121,6 +135,5 @@ for (var i = 0; i < 8; i++) {
   fragmentPin.appendChild(newPin);
 }
 
-advertPin.appendChild(fragmentPin);
-
+init();
 
