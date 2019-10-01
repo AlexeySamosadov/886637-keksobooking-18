@@ -5,21 +5,20 @@ var map = document.querySelector('.map');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 var fragmentPin = document.createDocumentFragment();
 
+
 var init = function () {
   map.classList.remove('map--faded');
   advertPin.appendChild(fragmentPin);
 };
 
-var randomNumber = function(minNumber, maxNumber) {
+var randomNumber = function (minNumber, maxNumber) {
   if (arguments.length > 2) {
-    console.log('нельзя задавать больше двух аргументов в функции randomNumber');
     return 0;
   } else if (arguments.length === 2) {
     return Math.floor(Math.random() * (maxNumber + 1 - minNumber) + minNumber);
   } else if (arguments.length === 1) {
     return Math.round(Math.random() * minNumber);
-  }
-  else {
+  } else {
     return Math.round(Math.random());
   }
 };
@@ -49,7 +48,7 @@ var generateFlat = function () {
 };
 
 var generateRooms = function () {
-  return randomNumber(1,5);
+  return randomNumber(1, 5);
 };
 
 var generateGuestNumber = function () {
@@ -139,4 +138,5 @@ for (var i = 0; i < 8; i++) {
 }
 
 init();
+
 
