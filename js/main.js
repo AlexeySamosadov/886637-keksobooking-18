@@ -14,7 +14,6 @@ var CARDS_DESCRIPTION = ['Уютная квартира рядом с прекр
   'Стильная, современная и очень теплая квартира рядом с Киевским вокзалом. Дом находится во дворе, что обеспечивает тишину. Квартира - студия, в ней есть всё необходимое для комфортного проживания.'
 ];
 var FLAT_TYPE = ['palace', 'flat', 'house', 'bungalo'];
-=======
 var fragmentCard = document.createDocumentFragment();
 
 var init = function () {
