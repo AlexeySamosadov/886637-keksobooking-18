@@ -4,6 +4,16 @@ var advertPin = document.querySelector('.map__pins');
 var map = document.querySelector('.map');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 var fragmentPin = document.createDocumentFragment();
+var CARD_TITLES = ['Новая квартира около метро', 'Ретро квартира', 'Современная квартира Аригато', 'Уютная комната в центре Токио', 'Новый евроремонт', 'Отель с видом на Башню', 'Комната у парка', 'Эксклюзивный Пент-Хаус'];
+var CARDS_DESCRIPTION = ['Уютная квартира рядом с прекрасным парком, в шаговой доступности от метро Щукинская, рядом торговый центр',
+  'Светлая элегантная квартира в самом центре Москвы, на оживленном бульваре',
+  'Предлагаются посуточно апартаменты - студия с хорошим ремонтом.\n' + 'Полный набор техники.',
+  'Красивые и комфортные номера в самом центре Москвы',
+  'От квартиры до метро ~8 минут средним шагом.',
+  'Апартамент с дизайнерским ремонтом рядом с метро. В комнате двуспальная кровать с ортопедическим матрасом, гардероб, туалетный столик, стул. Техника новая - кондиционер, телевизор, холодильник, СВЧ-печь (микроволновая), электрический чайник, утюг, гладильная доска, встроенный фен. Чайный набор, посуда. Многофункциональная душевая кабина с гидромассажем, туалетные принадлежности (жидкое мыло, гель для душа, шампунь и кондиционер). Комплект постельного белья и полотенец. Бесплатный Wi-Fi.',
+  'Стильная, современная и очень теплая квартира рядом с Киевским вокзалом. Дом находится во дворе, что обеспечивает тишину. Квартира - студия, в ней есть всё необходимое для комфортного проживания.'
+];
+var FLAT_TYPE = ['palace', 'flat', 'house', 'bungalo'];
 var fragmentCard = document.createDocumentFragment();
 
 var init = function () {
@@ -31,20 +41,8 @@ var generatePrice = function () {
   return randomNumber(10000);
 };
 
-var cardTitles = ['Новая квартира около метро', 'Ретро квартира', 'Современная квартира Аригато', 'Уютная комната в центре Токио', 'Новый евроремонт', 'Отель с видом на Башню', 'Комната у парка', 'Эксклюзивный Пент-Хаус'];
-var cardsDiscription = [
-  'Уютная квартира рядом с прекрасным парком, в шаговой доступности от метро Щукинская, рядом торговый центр',
-  'Светлая элегантная квартира в самом центре Москвы, на оживленном бульваре',
-  'Предлагаются посуточно апартаменты - студия с хорошим ремонтом.\n' + 'Полный набор техники.',
-  'Красивые и комфортные номера в самом центре Москвы',
-  'От квартиры до метро ~8 минут средним шагом.',
-  'Апартамент с дизайнерским ремонтом рядом с метро. В комнате двуспальная кровать с ортопедическим матрасом, гардероб, туалетный столик, стул. Техника новая - кондиционер, телевизор, холодильник, СВЧ-печь (микроволновая), электрический чайник, утюг, гладильная доска, встроенный фен. Чайный набор, посуда. Многофункциональная душевая кабина с гидромассажем, туалетные принадлежности (жидкое мыло, гель для душа, шампунь и кондиционер). Комплект постельного белья и полотенец. Бесплатный Wi-Fi.',
-  'Стильная, современная и очень теплая квартира рядом с Киевским вокзалом. Дом находится во дворе, что обеспечивает тишину. Квартира - студия, в ней есть всё необходимое для комфортного проживания.'
-];
-
 var generateFlat = function () {
-  var flatType = ['palace', 'flat', 'house', 'bungalo'];
-  return flatType[randomNumber(4)];
+  return FLAT_TYPE[randomNumber(4)];
 };
 
 var generateRooms = function () {
@@ -66,7 +64,7 @@ var generateFeatures = function () {
   var generatedFeatures = [];
 
   for (var i = 0; i < arrayLength; i++) {
-    generatedFeatures[i] = featuresTemplate[i];
+    generatedFeatures.push(featuresTemplate[i]);
   }
 
   return generatedFeatures;
@@ -77,7 +75,7 @@ var generatePhotos = function () {
   var generatedPhotos = [];
 
   for (var i = 0; i < arrayLength; i++) {
-    generatedPhotos[i] = 'http://o0.github.io/assets/images/tokyo/hotel' + i + '.jpg';
+    generatedPhotos.push('http://o0.github.io/assets/images/tokyo/hotel' + i + '.jpg');
   }
 
   return generatedPhotos;
@@ -101,16 +99,16 @@ var generateArray = function () {
       },
 
       'offer': {
-        'title': cardTitles[i],
+        'title': CARD_TITLES[i],
         'address': generateCordinate(),
-        'price': generatePrice(),
+        'price': randomNumber(10000),
         'type': generateFlat(),
         'rooms': generateRooms(),
         'guests': generateGuestNumber(),
         'checkin': generateCheckInOutTime(),
         'checkout': generateCheckInOutTime(),
         'features': generateFeatures(),
-        'description': cardsDiscription[i],
+        'description': CARDS_DESCRIPTION[i],
         'photos': generatePhotos()
       },
 
@@ -119,7 +117,7 @@ var generateArray = function () {
         'y': generateMapCordinateY()
       }
     };
-    arr[i] = cardTemplate;
+    arr.push(cardTemplate);
   }
 
   return arr;
@@ -127,15 +125,21 @@ var generateArray = function () {
 
 var appartments = generateArray();
 
-for (var i = 0; i < 8; i++) {
-  var newPin = templatePin.cloneNode(true);
-  newPin.setAttribute('style', 'left: ' + appartments[i].location.x + '%; ' + 'top: ' + appartments[i].location.y + 'px;');
-  var imagePin = newPin.querySelector('img');
-  imagePin.setAttribute('src', appartments[i].author.avatar);
-  imagePin.setAttribute('alt', appartments[i].offer.title);
+var addPin = function (arr) {
+  for (var i = 0; i < 8; i++) {
+    var newPin = templatePin.cloneNode(true);
+    newPin.setAttribute('style', 'left: ' + arr[i].location.x + '%; ' + 'top: ' + arr[i].location.y + 'px;');
+    // newPin.style.left = 'arr[i].location.x';
+    // newPin.style.top = 'arr[i].location.y';
+    var imagePin = newPin.querySelector('img');
+    imagePin.setAttribute('src', arr[i].author.avatar);
+    imagePin.setAttribute('alt', arr[i].offer.title);
 
-  fragmentPin.appendChild(newPin);
-}
+    fragmentPin.appendChild(newPin);
+  }
+};
+
+addPin(appartments);
 
 var translateBungaloType = function (bungaloType) {
   if (bungaloType === 'flat') {
@@ -190,4 +194,3 @@ var createNewCards = function () {
 
 createNewCards();
 init();
-
