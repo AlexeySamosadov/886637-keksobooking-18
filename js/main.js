@@ -5,8 +5,7 @@ var map = document.querySelector('.map');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 var fragmentPin = document.createDocumentFragment();
 var CARD_TITLES = ['Новая квартира около метро', 'Ретро квартира', 'Современная квартира Аригато', 'Уютная комната в центре Токио', 'Новый евроремонт', 'Отель с видом на Башню', 'Комната у парка', 'Эксклюзивный Пент-Хаус'];
-var CARDS_DESCRIPTION = [
-  'Уютная квартира рядом с прекрасным парком, в шаговой доступности от метро Щукинская, рядом торговый центр',
+var CARDS_DESCRIPTION = ['Уютная квартира рядом с прекрасным парком, в шаговой доступности от метро Щукинская, рядом торговый центр',
   'Светлая элегантная квартира в самом центре Москвы, на оживленном бульваре',
   'Предлагаются посуточно апартаменты - студия с хорошим ремонтом.\n' + 'Полный набор техники.',
   'Красивые и комфортные номера в самом центре Москвы',
@@ -15,6 +14,8 @@ var CARDS_DESCRIPTION = [
   'Стильная, современная и очень теплая квартира рядом с Киевским вокзалом. Дом находится во дворе, что обеспечивает тишину. Квартира - студия, в ней есть всё необходимое для комфортного проживания.'
 ];
 var FLAT_TYPE = ['palace', 'flat', 'house', 'bungalo'];
+=======
+var fragmentCard = document.createDocumentFragment();
 
 var init = function () {
   map.classList.remove('map--faded');
@@ -35,6 +36,10 @@ var randomNumber = function (minNumber, maxNumber) {
 
 var generateCordinate = function () {
   return randomNumber(1000) + ', ' + randomNumber(1000);
+};
+
+var generatePrice = function () {
+  return randomNumber(10000);
 };
 
 var generateFlat = function () {
@@ -136,6 +141,57 @@ var addPin = function (arr) {
 };
 
 addPin(appartments);
+
+var translateBungaloType = function (bungaloType) {
+  if (bungaloType === 'flat') {
+    bungaloType = 'Квартира';
+  } else if (bungaloType === 'bungalo') {
+    bungaloType = 'Бунгало';
+  } else if (bungaloType === 'house') {
+    bungaloType = 'Дом';
+  } else if (bungaloType === 'palace') {
+    bungaloType = 'Дворец';
+  }
+  return bungaloType;
+};
+
+/* var generatePopupList = function (array) {
+  var result = 0;
+  for (i = 0; array.length; i++) {
+    result += '<li>' + array[i] + '</li>';
+  }
+  return result;
+};*/
+
+var createNewCards = function () {
+
+  var cardTemple = document.querySelector('#card').content;
+  var mapCard = cardTemple.querySelector('.map__card');
+  var popupTitle = mapCard.querySelector('.popup__title');
+  var popupAdress = mapCard.querySelector('.popup__text--address');
+  var popupPrice = mapCard.querySelector('.popup__text--price');
+  var popupType = mapCard.querySelector('.popup__type');
+  var popupCapacity = mapCard.querySelector('.popup__text--capacity');
+  var popupTime = mapCard.querySelector('.popup__text--time ');
+  var popupFeatures = mapCard.querySelector('.popup__features');
+  var popupDescription = mapCard.querySelector('.popup__description');
+  var popupAvatar = mapCard.querySelector('.popup__avatar');
+
+  for (i = 0; i < 8; i++) {
+    var newMapCard = mapCard.cloneNode(true);
+    popupTitle.textContent = appartments[i].offer.title;
+    popupAdress.textContent = appartments[i].offer.address;
+    popupPrice.textContent = appartments[i].offer.price + '₽/ночь.';
+    popupType.textContent = translateBungaloType(appartments[i].offer.type);
+    popupCapacity.textContent = appartments[i].offer.rooms + ' Комнаты для ' + appartments[i].offer.guests + ' Гостей';
+    popupTime.textContent = 'Заезд после ' + appartments[i].offer.checkin + ', выезд до ' + appartments[i].offer.checkout;
+    popupFeatures.innerHTML = '<li>' + appartments[i].offer.features + '</li>'; // Недоделал
+    popupDescription.textContent = appartments[i].offer.description;
+
+    popupAvatar.setAttribute('src', appartments[i].author.avatar);
+    fragmentCard.appendChild(newMapCard);
+  }
+};
+
+createNewCards();
 init();
-
-
