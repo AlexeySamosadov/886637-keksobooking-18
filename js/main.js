@@ -123,9 +123,8 @@ var appartments = generateArray();
 var addPin = function (arr) {
   for (var i = 0; i < 8; i++) {
     var newPin = templatePin.cloneNode(true);
-    newPin.setAttribute('style', 'left: ' + arr[i].location.x + '%; ' + 'top: ' + arr[i].location.y + 'px;');
-    // newPin.style.left = 'arr[i].location.x';
-    // newPin.style.top = 'arr[i].location.y';
+    newPin.style.left = arr[i].location.x + '%';
+    newPin.style.top = arr[i].location.y + 'px';
     var imagePin = newPin.querySelector('img');
     imagePin.setAttribute('src', arr[i].author.avatar);
     imagePin.setAttribute('alt', arr[i].offer.title);
