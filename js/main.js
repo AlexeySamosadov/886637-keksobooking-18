@@ -148,14 +148,6 @@ var translateBungaloType = function (bungaloType) {
   return bungaloType;
 };
 
-/* var generatePopupList = function (array) {
-  var result = 0;
-  for (i = 0; array.length; i++) {
-    result += '<li>' + array[i] + '</li>';
-  }
-  return result;
-};*/
-
 var createNewCards = function () {
   var cardTemple = document.querySelector('#card').content;
   var mapCard = cardTemple.querySelector('.map__card');
@@ -203,7 +195,6 @@ var createNewCards = function () {
 };
 addPin();
 createNewCards();
-
 
 init();
 
