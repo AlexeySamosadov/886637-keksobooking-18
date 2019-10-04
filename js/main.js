@@ -133,5 +133,57 @@ var addPin = function (arr) {
   }
 };
 
+var translateBungaloType = function (bungaloType) {
+  if (bungaloType === 'flat') {
+    bungaloType = 'Квартира';
+  } else if (bungaloType === 'bungalo') {
+    bungaloType = 'Бунгало';
+  } else if (bungaloType === 'house') {
+    bungaloType = 'Дом';
+  } else if (bungaloType === 'palace') {
+    bungaloType = 'Дворец';
+  }
+  return bungaloType;
+};
+
+/* var generatePopupList = function (array) {
+  var result = 0;
+  for (i = 0; array.length; i++) {
+    result += '<li>' + array[i] + '</li>';
+  }
+  return result;
+};*/
+
+var createNewCards = function () {
+  var fragmentCard = document.createDocumentFragment();
+  var cardTemple = document.querySelector('#card').content;
+  var mapCard = cardTemple.querySelector('.map__card');
+  var popupTitle = mapCard.querySelector('.popup__title');
+  var popupAdress = mapCard.querySelector('.popup__text--address');
+  var popupPrice = mapCard.querySelector('.popup__text--price');
+  var popupType = mapCard.querySelector('.popup__type');
+  var popupCapacity = mapCard.querySelector('.popup__text--capacity');
+  var popupTime = mapCard.querySelector('.popup__text--time ');
+  var popupFeatures = mapCard.querySelector('.popup__features');
+  var popupDescription = mapCard.querySelector('.popup__description');
+  var popupAvatar = mapCard.querySelector('.popup__avatar');
+
+  for (var i = 0; i < 8; i++) {
+    var newMapCard = mapCard.cloneNode(true);
+    popupTitle.textContent = appartments[i].offer.title;
+    popupAdress.textContent = appartments[i].offer.address;
+    popupPrice.textContent = appartments[i].offer.price + '₽/ночь.';
+    popupType.textContent = translateBungaloType(appartments[i].offer.type);
+    popupCapacity.textContent = appartments[i].offer.rooms + ' Комнаты для ' + appartments[i].offer.guests + ' Гостей';
+    popupTime.textContent = 'Заезд после ' + appartments[i].offer.checkin + ', выезд до ' + appartments[i].offer.checkout;
+    popupFeatures.innerHTML = '<li>' + appartments[i].offer.features + '</li>'; // Недоделал
+    popupDescription.textContent = appartments[i].offer.description;
+
+    popupAvatar.setAttribute('src', appartments[i].author.avatar);
+    fragmentCard.appendChild(newMapCard);
+  }
+};
+
 addPin(appartments);
+createNewCards();
 init();
