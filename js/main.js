@@ -5,6 +5,7 @@ var map = document.querySelector('.map');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 var fragmentPin = document.createDocumentFragment();
 var fragmentCard = document.createDocumentFragment();
+var featuresTemplate = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var CARD_TITLES = ['Новая квартира около метро', 'Ретро квартира', 'Современная квартира Аригато', 'Уютная комната в центре Токио', 'Новый евроремонт', 'Отель с видом на Башню', 'Комната у парка', 'Эксклюзивный Пент-Хаус'];
 var CARDS_DESCRIPTION = [
   'Уютная квартира рядом с прекрасным парком, в шаговой доступности от метро Щукинская, рядом торговый центр',
@@ -56,13 +57,12 @@ var generateCheckInOutTime = function () {
   return checkInTimes[randomNumber(2)];
 };
 
-var generateFeatures = function () {
-  var featuresTemplate = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-  var arrayLength = randomNumber(5);
+var generateFeatures = function (features) {
+  var arrayLength = randomNumber(features.length - 1);
   var generatedFeatures = [];
 
   for (var i = 0; i < arrayLength; i++) {
-    generatedFeatures.push(featuresTemplate[i]);
+    generatedFeatures.push(features[i]);
   }
 
   return generatedFeatures;
@@ -105,7 +105,7 @@ var generateArray = function () {
         'guests': generateGuestNumber(),
         'checkin': generateCheckInOutTime(),
         'checkout': generateCheckInOutTime(),
-        'features': generateFeatures(),
+        'features': generateFeatures(featuresTemplate),
         'description': CARDS_DESCRIPTION[i],
         'photos': generatePhotos()
       },
