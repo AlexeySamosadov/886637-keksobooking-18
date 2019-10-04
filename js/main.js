@@ -184,17 +184,16 @@ var createNewCards = function () {
     popupPhotos.innerHTML = '';
     for (j = 0; j < appartments[i].offer.photos.length; j++) {
       var newPhoto = popupPhoto.cloneNode(true);
-      newPhoto.setAttribute('src', appartments[i].offer.photos[j]);
+      newPhoto.src = appartments[i].offer.photos[j];
       newPhoto.setAttribute('alt', appartments[i].offer.title);
       popupPhotos.appendChild(newPhoto);
     }
 
-    popupAvatar.setAttribute('src', appartments[i].author.avatar);
+    popupAvatar.src = appartments[i].author.avatar;
     fragmentCard.appendChild(newMapCard);
   }
 };
 addPin();
 createNewCards();
-
 init();
 
