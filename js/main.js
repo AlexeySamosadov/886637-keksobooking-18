@@ -40,19 +40,18 @@ var formSubmit = document.querySelector('.ad-form__submit');
 var findCordination = function (elem) {
   var cordyX = Math.round(mapPin.getBoundingClientRect().x + X_PIN);
   var cordyY = Math.round(mapPin.getBoundingClientRect().y + Y_PIN + pageYOffset);
-  return elem.setAttribute("value", cordyX + ", " + cordyY);
+  return elem.setAttribute('value', cordyX + ', ' + cordyY);
 };
 
 var onErrorRoomGuest = function () {
-  numberRoom.setCustomValidity("");
-  numberGuest.setCustomValidity("");
+  numberRoom.setCustomValidity('');
+  numberGuest.setCustomValidity('');
   if ((+numberRoom.value === 100 && +numberGuest.value !== 0) || (+numberRoom.value !== 100 && +numberGuest.value === 0)) {
-    numberRoom.setCustomValidity("Мало комнат");
-    numberGuest.setCustomValidity("Много людей");
-  }
-  else if (+numberRoom.value < +numberGuest.value) {
-    numberRoom.setCustomValidity("Мало комнат");
-    numberGuest.setCustomValidity("Много людей");
+    numberRoom.setCustomValidity('Мало комнат');
+    numberGuest.setCustomValidity('Много людей');
+  } else if (+numberRoom.value < +numberGuest.value) {
+    numberRoom.setCustomValidity('Мало комнат');
+    numberGuest.setCustomValidity('Много людей');
   }
 };
 
@@ -67,7 +66,7 @@ var activeState = function () {
   map.classList.remove('map--faded');
   addPin();
   advertPin.appendChild(fragmentPin);
-  map.insertBefore(createNewCards(appartments[1]), mapConteiner);  //Добавляет карточку на страницу
+  map.insertBefore(createNewCards(appartments[1]), mapConteiner); // Добавляет карточку на страницу
   for (var i = 0; i < addFormFieldsets.length; i++) {
     addFormFieldsets[i].removeAttribute('disabled', 'disabled');
   }
@@ -182,40 +181,40 @@ var createNewCards = function (arr) {
   var popupPhoto = popupPhotos.querySelector('.popup__photo');
   var popupAvatar = mapCard.querySelector('.popup__avatar');
 
-    // var newMapCard = mapCard.cloneNode(true);
-    popupTitle.textContent = arr.offer.title;
-    popupAdress.textContent = arr.offer.address;
-    popupPrice.textContent = arr.offer.price + '₽/ночь.';
-    popupType.textContent = translateBungaloType(arr.offer.type);
-    popupCapacity.textContent = arr.offer.rooms + ' Комнаты для ' + arr.offer.guests + ' Гостей';
-    popupTime.textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
+  // var newMapCard = mapCard.cloneNode(true);
+  popupTitle.textContent = arr.offer.title;
+  popupAdress.textContent = arr.offer.address;
+  popupPrice.textContent = arr.offer.price + '₽/ночь.';
+  popupType.textContent = translateBungaloType(arr.offer.type);
+  popupCapacity.textContent = arr.offer.rooms + ' Комнаты для ' + arr.offer.guests + ' Гостей';
+  popupTime.textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
 
-    popupFeatures.innerHTML = '';
-    for (var j = 0; j < arr.offer.features.length; j++) {
-      var newList = document.createElement('li');
-      newList.classList.add('popup__feature');
-      newList.classList.add('popup__feature--' + arr.offer.features[j]);
-      popupFeatures.appendChild(newList);
-    }
-    popupDescription.textContent = arr.offer.description;
+  popupFeatures.innerHTML = '';
+  for (var j = 0; j < arr.offer.features.length; j++) {
+    var newList = document.createElement('li');
+    newList.classList.add('popup__feature');
+    newList.classList.add('popup__feature--' + arr.offer.features[j]);
+    popupFeatures.appendChild(newList);
+  }
+  popupDescription.textContent = arr.offer.description;
 
-    popupPhotos.innerHTML = '';
-    for (j = 0; j < arr.offer.photos.length; j++) {
-      var newPhoto = popupPhoto.cloneNode(true);
-      newPhoto.src = arr.offer.photos[j];
-      newPhoto.alt = arr.offer.title;
-      popupPhotos.appendChild(newPhoto);
-    }
+  popupPhotos.innerHTML = '';
+  for (j = 0; j < arr.offer.photos.length; j++) {
+    var newPhoto = popupPhoto.cloneNode(true);
+    newPhoto.src = arr.offer.photos[j];
+    newPhoto.alt = arr.offer.title;
+    popupPhotos.appendChild(newPhoto);
+  }
 
-    popupAvatar.src = arr.author.avatar;
-    return cardTemple;
+  popupAvatar.src = arr.author.avatar;
+  return cardTemple;
 };
 
 mapPin.addEventListener('mousedown', function () {
   activeState();
 });
 mapPin.addEventListener('keydown', function (evt) {
-  if(evt.keyCode === ENTER_BUTTON_NUMBER) {
+  if (evt.keyCode === ENTER_BUTTON_NUMBER) {
     activeState();
   }
 });
