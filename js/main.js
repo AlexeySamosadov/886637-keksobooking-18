@@ -35,6 +35,8 @@ var inputAdress = document.querySelector('#address');
 var numberRoom = document.querySelector('#room_number');
 var numberGuest = document.querySelector('#capacity');
 var formSubmit = document.querySelector('.ad-form__submit');
+var numberRoomInt = +numberRoom;
+var numberGuestInt = +numberGuest;
 
 
 var findCordination = function (elem) {
@@ -46,23 +48,21 @@ var findCordination = function (elem) {
 var onErrorRoomGuest = function () {
   numberRoom.setCustomValidity('');
   numberGuest.setCustomValidity('');
-  if ((+numberRoom.value === 100 && +numberGuest.value !== 0) || (+numberRoom.value !== 100 && +numberGuest.value === 0)) {
-    numberRoom.setCustomValidity('Мало комнат');
-    numberGuest.setCustomValidity('Много людей');
-  } else if (+numberRoom.value < +numberGuest.value) {
-    numberRoom.setCustomValidity('Мало комнат');
-    numberGuest.setCustomValidity('Много людей');
+  if ((numberRoomInt.value === 100 && numberGuestInt.value !== 0) || (numberRoomInt.value !== 100 && numberGuestInt.value === 0)) {
+    numberRoom.setCustomValidity('Количество комнат не соответсвует количеству гостей');
+  } else if (numberRoomInt.value < numberGuestInt.value) {
+    numberRoom.setCustomValidity('Количество комнат не соответсвует количеству гостей');
   }
 };
 
-var notActiveState = function () {
+var deactiveState = function () {
   for (var i = 0; i < addFormFieldsets.length; i++) {
     addFormFieldsets[i].setAttribute('disabled', 'disabled');
   }
   mapFilters.classList.add('map__filters--disabled');
 };
 
-var activeState = function () {
+var activateState = function () {
   map.classList.remove('map--faded');
   addPin();
   advertPin.appendChild(fragmentPin);
@@ -211,16 +211,16 @@ var createNewCards = function (arr) {
 };
 
 mapPin.addEventListener('mousedown', function () {
-  activeState();
+  activateState();
 });
 mapPin.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_BUTTON_NUMBER) {
-    activeState();
+    activateState();
   }
 });
 
 numberRoom.addEventListener('change', onErrorRoomGuest);
 numberGuest.addEventListener('change', onErrorRoomGuest);
-formSubmit.addEventListener('click', onErrorRoomGuest); // Почему тут обрабочик на событие Submit не работает?
+formSubmit.addEventListener('click', onErrorRoomGuest); // Почему тут обрабочик на событие Submit не работает ( не останавливает отправку формы даже с evt.preventDefault() )?
 
-notActiveState();
+deactiveState();
