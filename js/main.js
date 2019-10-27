@@ -136,6 +136,9 @@ var popupClose = function () {
 
 var insertCardOnMap = function (element, card) {
   card.addEventListener('click', function () {
+    if (document.querySelector('.map__card')) {
+      document.querySelector('.map__card').remove();
+    };
     map.insertBefore(createNewCards(element), mapConteiner); // Добавляет карточку на страницу
     popupClose();
   });
