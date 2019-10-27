@@ -26,6 +26,7 @@ var FlatTypes = {
 };
 var X_PIN = 32;
 var Y_PIN = 75;
+var ESC_BUTTON = 27;
 
 var mapPin = document.querySelector('.map__pin--main');
 var addForm = document.querySelector('.ad-form');
@@ -35,8 +36,10 @@ var inputAdress = document.querySelector('#address');
 var numberRoom = document.querySelector('#room_number');
 var numberGuest = document.querySelector('#capacity');
 var formSubmit = document.querySelector('.ad-form__submit');
-var numberRoomInt = +numberRoom;
-var numberGuestInt = +numberGuest;
+var priceNumber = document.querySelector('#price');
+// var typeNumber = document.querySelector('.type');
+var numberRoomValue = +numberRoom.value;
+var numberGuestValue = +numberGuest.value;
 
 
 var findCordination = function (elem) {
@@ -45,12 +48,24 @@ var findCordination = function (elem) {
   return elem.setAttribute('value', cordyX + ', ' + cordyY);
 };
 
+// var onChangeHousing = function () {
+//   if
+// };
+
+var onErrorPriceNumber = function () {
+  if (priceNumber.value > 1000000) {
+    priceNumber.setCustomValidity('Введите максимальное значение цены меньше миллиона');
+  } else if (!priceNumber.value) {
+    priceNumber.setCustomValidity('Введите значение цены');
+  }
+};
+
 var onErrorRoomGuest = function () {
   numberRoom.setCustomValidity('');
   numberGuest.setCustomValidity('');
-  if ((numberRoomInt.value === 100 && numberGuestInt.value !== 0) || (numberRoomInt.value !== 100 && numberGuestInt.value === 0)) {
+  if ((numberRoomValue === 100 && numberGuestValue !== 0) || (numberRoomValue !== 100 && numberGuestValue === 0)) {
     numberRoom.setCustomValidity('Количество комнат не соответсвует количеству гостей');
-  } else if (numberRoomInt.value < numberGuestInt.value) {
+  } else if (numberRoomValue < numberGuestValue) {
     numberRoom.setCustomValidity('Количество комнат не соответсвует количеству гостей');
   }
 };
@@ -59,20 +74,47 @@ var deactiveState = function () {
   for (var i = 0; i < addFormFieldsets.length; i++) {
     addFormFieldsets[i].setAttribute('disabled', 'disabled');
   }
-  mapFilters.classList.add('map__filters--disabled');
+  mapFilters.classList.add('maapartmentsp__filters--disabled');
 };
 
 var activateState = function () {
   map.classList.remove('map--faded');
   addPin();
   advertPin.appendChild(fragmentPin);
-  map.insertBefore(createNewCards(appartments[1]), mapConteiner); // Добавляет карточку на страницу
   for (var i = 0; i < addFormFieldsets.length; i++) {
     addFormFieldsets[i].removeAttribute('disabled', 'disabled');
   }
   addForm.classList.remove('ad-form--disabled');
   mapFilters.classList.remove('map__filters--disabled');
   findCordination(inputAdress);
+
+  var createdMapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  for (var j = 0; j < createdMapPins.length; j++) {
+    insertCardOnMap(appartments[j], createdMapPins[j]);
+  }
+};
+
+var onPopupEscPress = function (evt) {
+  var card = document.querySelector('.map__card');
+  if (evt.keyCode === ESC_BUTTON) {
+    card.remove();
+  }
+};
+
+var popupClose = function () {
+  var popupCloser = document.querySelector('.popup__close');
+  var card = document.querySelector('.map__card');
+  popupCloser.addEventListener('click', function () {
+    card.remove();
+  });
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var insertCardOnMap = function (element, card) {
+  card.addEventListener('click', function () {
+    map.insertBefore(createNewCards(element), mapConteiner); // Добавляет карточку на страницу
+    popupClose();
+  });
 };
 
 var randomNumber = function (minNumber, maxNumber) {
@@ -181,6 +223,7 @@ var createNewCards = function (arr) {
   var popupPhoto = popupPhotos.querySelector('.popup__photo');
   var popupAvatar = mapCard.querySelector('.popup__avatar');
 
+
   // var newMapCard = mapCard.cloneNode(true);
   popupTitle.textContent = arr.offer.title;
   popupAdress.textContent = arr.offer.address;
@@ -213,6 +256,7 @@ var createNewCards = function (arr) {
 mapPin.addEventListener('mousedown', function () {
   activateState();
 });
+
 mapPin.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_BUTTON_NUMBER) {
     activateState();
@@ -222,5 +266,9 @@ mapPin.addEventListener('keydown', function (evt) {
 numberRoom.addEventListener('change', onErrorRoomGuest);
 numberGuest.addEventListener('change', onErrorRoomGuest);
 formSubmit.addEventListener('click', onErrorRoomGuest); // Почему тут обрабочик на событие Submit не работает ( не останавливает отправку формы даже с evt.preventDefault() )?
+priceNumber.addEventListener('change', onErrorPriceNumber);
+// typeNumber.addEventListener('change', onChangeHousing);
 
 deactiveState();
+
+
