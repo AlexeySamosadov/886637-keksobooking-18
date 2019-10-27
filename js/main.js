@@ -74,14 +74,6 @@ var errorPriceNumber = function (priceOfNumber, minPrice, maxPrice) {
   }
 };
 
-var onSynchronTiming = function (time) {
-  switch (time) {
-    case '12:00': return '12:00';
-    case '13:00': return '13:00';
-    default: return '14:00';
-  }
-};
-
 var findCordination = function (elem) {
   var cordyX = Math.round(mapPin.getBoundingClientRect().x + X_PIN);
   var cordyY = Math.round(mapPin.getBoundingClientRect().y + Y_PIN + pageYOffset);
@@ -307,10 +299,10 @@ typeNumber.addEventListener('change', function () {
 });
 
 timeIn.addEventListener('change', function () {
-  timeOut.value = onSynchronTiming(timeIn.value);
+  timeOut.value = timeIn.value;
 });
 timeOut.addEventListener('change', function () {
-  timeIn.value = onSynchronTiming(timeOut.value);
+  timeIn.value = timeOut.value;
 });
 
 deactiveState();
