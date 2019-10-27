@@ -37,27 +37,55 @@ var numberRoom = document.querySelector('#room_number');
 var numberGuest = document.querySelector('#capacity');
 var formSubmit = document.querySelector('.ad-form__submit');
 var priceNumber = document.querySelector('#price');
-// var typeNumber = document.querySelector('.type');
+var typeNumber = document.querySelector('#type');
 var numberRoomValue = +numberRoom.value;
 var numberGuestValue = +numberGuest.value;
+var timeIn = document.querySelector('#timein');
+var timeOut = document.querySelector('#timeout');
+var popuptTitile = document.querySelector('#title');
 
+var changeHousing = function () {
+  var x = 0;
+  if (typeNumber.value === 'bungalo') {
+    priceNumber.setAttribute('placeholder', '0');
+    x = 0;
+  } else if (typeNumber.value === 'flat') {
+    priceNumber.setAttribute('placeholder', '1000');
+    x = 1000;
+  } else if (typeNumber.value === 'house') {
+    priceNumber.setAttribute('placeholder', '5000');
+    x = 5000;
+  } else if (typeNumber.value === 'palace') {
+    priceNumber.setAttribute('placeholder', '10000');
+    x = 10000;
+  }
+  return x;
+};
+
+var errorPriceNumber = function (priceOfNumber, minPrice, maxPrice) {
+  priceNumber.setCustomValidity('');
+  if (priceOfNumber > maxPrice) {
+    priceNumber.setCustomValidity('Введите максимальное значение цены меньше миллиона');
+  } else if (!priceOfNumber) {
+    priceNumber.setCustomValidity('Введите значение цены');
+  }
+  if (priceOfNumber < minPrice) {
+    priceNumber.setCustomValidity('Введите минимальное значение цены побольше ' + changeHousing());
+  }
+};
+
+var onSynchronTiming = function (time) {
+  switch (time) {
+    case '12:00': return '12:00';
+    case '13:00': return '13:00';
+    default: return '14:00';
+  }
+};
 
 var findCordination = function (elem) {
   var cordyX = Math.round(mapPin.getBoundingClientRect().x + X_PIN);
   var cordyY = Math.round(mapPin.getBoundingClientRect().y + Y_PIN + pageYOffset);
   return elem.setAttribute('value', cordyX + ', ' + cordyY);
-};
-
-// var onChangeHousing = function () {
-//   if
-// };
-
-var onErrorPriceNumber = function () {
-  if (priceNumber.value > 1000000) {
-    priceNumber.setCustomValidity('Введите максимальное значение цены меньше миллиона');
-  } else if (!priceNumber.value) {
-    priceNumber.setCustomValidity('Введите значение цены');
-  }
 };
 
 var onErrorRoomGuest = function () {
@@ -74,7 +102,7 @@ var deactiveState = function () {
   for (var i = 0; i < addFormFieldsets.length; i++) {
     addFormFieldsets[i].setAttribute('disabled', 'disabled');
   }
-  mapFilters.classList.add('maapartmentsp__filters--disabled');
+  mapFilters.classList.add('mapartmentsp__filters--disabled');
 };
 
 var activateState = function () {
@@ -92,6 +120,10 @@ var activateState = function () {
   for (var j = 0; j < createdMapPins.length; j++) {
     insertCardOnMap(appartments[j], createdMapPins[j]);
   }
+  priceNumber.setAttribute('placeholder', '1000');
+  inputAdress.setAttribute('disabled', 'disabled');
+  priceNumber.setAttribute('required', 'required');
+  popuptTitile.setAttribute('required', 'required');
 };
 
 var onPopupEscPress = function (evt) {
@@ -263,11 +295,23 @@ mapPin.addEventListener('keydown', function (evt) {
   }
 });
 
+
 numberRoom.addEventListener('change', onErrorRoomGuest);
 numberGuest.addEventListener('change', onErrorRoomGuest);
 formSubmit.addEventListener('click', onErrorRoomGuest); // Почему тут обрабочик на событие Submit не работает ( не останавливает отправку формы даже с evt.preventDefault() )?
-priceNumber.addEventListener('change', onErrorPriceNumber);
-// typeNumber.addEventListener('change', onChangeHousing);
+priceNumber.addEventListener('change', function () {
+  errorPriceNumber(priceNumber.value, changeHousing(), 1000000);
+});
+typeNumber.addEventListener('change', function () {
+  errorPriceNumber(priceNumber.value, changeHousing(), 1000000);
+});
+
+timeIn.addEventListener('change', function () {
+  timeOut.value = onSynchronTiming(timeIn.value);
+});
+timeOut.addEventListener('change', function () {
+  timeIn.value = onSynchronTiming(timeOut.value);
+});
 
 deactiveState();
 
