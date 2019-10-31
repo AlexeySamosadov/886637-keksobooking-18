@@ -50,7 +50,7 @@ var HousingTypes = {
   BUNGALO: 0
 };
 
-var changePlaceholder = function () {
+var changePlaceholderAndMinValue = function () {
   priceNumber.setAttribute('placeholder', HousingTypes[typeNumber.value.toUpperCase()]);
   priceNumber.setAttribute('min', HousingTypes[typeNumber.value.toUpperCase()]);
 };
@@ -93,12 +93,6 @@ var activateState = function () {
   mapFilters.classList.remove('map__filters--disabled');
   findCordination(inputAdress);
   mapPin.removeEventListener('mousedown', onMouseDown);
-
-//   var createdMapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-//   // for (var j = 0; j < createdMapPins.length; j++) {
-//   //   insertCardOnMap(appartments[j], createdMapPins[j]);
-//   // }
-//   inputAdress.setAttribute('disabled', 'disabled');
 };
 
 var randomNumber = function (minNumber, maxNumber) {
@@ -254,23 +248,19 @@ var onClosePopup = function (evt) {
     closePopup();
   }
 };
-mapPin.addEventListener('mousedown', onMouseDown);
 
+
+mapPin.addEventListener('mousedown', onMouseDown);
 mapPin.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_BUTTON_NUMBER) {
     activateState();
   }
 });
-
-
 numberRoom.addEventListener('change', onErrorRoomGuest);
 numberGuest.addEventListener('change', onErrorRoomGuest);
-formSubmit.addEventListener('click', onErrorRoomGuest); // Почему тут обрабочик на событие Submit не работает ( не останавливает отправку формы даже с evt.preventDefault() )?
-/* priceNumber.addEventListener('change', function () {
-  errorPriceNumber(priceNumber.value, 1000000);
-});*/
+formSubmit.addEventListener('click', onErrorRoomGuest);
 typeNumber.addEventListener('change', function () {
-  changePlaceholder();
+  changePlaceholderAndMinValue();
 });
 
 timeIn.addEventListener('change', function () {
@@ -281,5 +271,3 @@ timeOut.addEventListener('change', function () {
 });
 
 deactiveState();
-
-
