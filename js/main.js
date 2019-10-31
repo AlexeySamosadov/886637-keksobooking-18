@@ -22,8 +22,9 @@ var FlatTypes = {
   FLAT: 'Квартира',
   PALACE: 'Дворец',
   HOUSE: 'Дом',
-  FFF: 'Бунгало'
+  BUNGALO: 'Бунгало'
 };
+
 var X_PIN = 32;
 var Y_PIN = 75;
 var ESC_BUTTON = 27;
@@ -44,33 +45,26 @@ var timeIn = document.querySelector('#timein');
 var timeOut = document.querySelector('#timeout');
 var popuptTitile = document.querySelector('#title');
 
-var changeHousing = function () {
-  var x = 0;
-  if (typeNumber.value === 'bungalo') {
-    priceNumber.setAttribute('placeholder', '0');
-    x = 0;
-  } else if (typeNumber.value === 'flat') {
-    priceNumber.setAttribute('placeholder', '1000');
-    x = 1000;
-  } else if (typeNumber.value === 'house') {
-    priceNumber.setAttribute('placeholder', '5000');
-    x = 5000;
-  } else if (typeNumber.value === 'palace') {
-    priceNumber.setAttribute('placeholder', '10000');
-    x = 10000;
-  }
-  return x;
+var changePlaceholder = function () {
+  priceNumber.setAttribute('placeholder', housingTypes[typeNumber.value.toUpperCase()]);
 };
 
-var errorPriceNumber = function (priceOfNumber, minPrice, maxPrice) {
+var housingTypes = {
+  FLAT: '1000',
+  PALACE: '10000',
+  HOUSE: '5000',
+  BUNGALO: '0'
+};
+
+var errorPriceNumber = function (priceOfNumber, maxPrice) {
   priceNumber.setCustomValidity('');
   if (priceOfNumber > maxPrice) {
-    priceNumber.setCustomValidity('Введите максимальное значение цены меньше миллиона');
+    priceNumber.setCustomValidity('Введите максимальное значение цены меньше ' + maxPrice);
   } else if (!priceOfNumber) {
     priceNumber.setCustomValidity('Введите значение цены');
   }
-  if (priceOfNumber < minPrice) {
-    priceNumber.setCustomValidity('Введите минимальное значение цены побольше ' + changeHousing());
+  if (priceOfNumber < +housingTypes[typeNumber.value.toUpperCase()]) {
+    priceNumber.setCustomValidity('Введите минимальное значение цены больше ' + housingTypes[typeNumber.value.toUpperCase()]);
   }
 };
 
@@ -295,10 +289,12 @@ numberRoom.addEventListener('change', onErrorRoomGuest);
 numberGuest.addEventListener('change', onErrorRoomGuest);
 formSubmit.addEventListener('click', onErrorRoomGuest); // Почему тут обрабочик на событие Submit не работает ( не останавливает отправку формы даже с evt.preventDefault() )?
 priceNumber.addEventListener('change', function () {
-  errorPriceNumber(priceNumber.value, changeHousing(), 1000000);
+  errorPriceNumber(priceNumber.value, 1000000);
+  changePlaceholder();
 });
 typeNumber.addEventListener('change', function () {
-  errorPriceNumber(priceNumber.value, changeHousing(), 1000000);
+  errorPriceNumber(priceNumber.value, 1000000);
+  changePlaceholder();
 });
 
 timeIn.addEventListener('change', function () {
