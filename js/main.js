@@ -189,7 +189,6 @@ var translateBungaloType = function (bungaloType) {
 };
 
 
-
 var createNewCards = function (arr) {
   var cardTemple = document.querySelector('#card').content.cloneNode(true);
   var mapCard = cardTemple.querySelector('.map__card');
