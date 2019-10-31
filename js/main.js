@@ -86,7 +86,7 @@ var activateState = function () {
     fragmentPin.appendChild(addPin(appartments[i]));
   }
   advertPin.appendChild(fragmentPin);
-  for (var i = 0; i < addFormFieldsets.length; i++) {
+  for (i = 0; i < addFormFieldsets.length; i++) {
     addFormFieldsets[i].removeAttribute('disabled', 'disabled');
   }
   addForm.classList.remove('ad-form--disabled');
@@ -98,30 +98,7 @@ var activateState = function () {
 //   // for (var j = 0; j < createdMapPins.length; j++) {
 //   //   insertCardOnMap(appartments[j], createdMapPins[j]);
 //   // }
-//   priceNumber.setAttribute('placeholder', '1000');
 //   inputAdress.setAttribute('disabled', 'disabled');
-//   priceNumber.setAttribute('required', 'required');
-//   popuptTitile.setAttribute('required', 'required');
-};
-
-var onPopupEscPress = function (evt) {
-  var card = document.querySelector('.map__card');
-  if (evt.keyCode === ESC_BUTTON) {
-    card.remove();
-    document.removeEventListener('keydown', onPopupEscPress);
-  }
-};
-
-var popupClose = function () {
-  var popupCloser = document.querySelector('.popup__close');
-  var card = document.querySelector('.map__card');
-
-  document.addEventListener('keydown', onPopupEscPress);
-  popupCloser.addEventListener('click', function () {
-    card.remove();
-    document.removeEventListener('keydown', onPopupEscPress);
-  });
-
 };
 
 var randomNumber = function (minNumber, maxNumber) {
@@ -261,18 +238,18 @@ var createNewCards = function (arr) {
     closePopup();
   });
   document.addEventListener('keydown', onClosePopup);
-  map.insertBefore(cardTemple, mapConteiner);                   // Добавляет карточку на страницу
+  map.insertBefore(cardTemple, mapConteiner); // Добавляет карточку на страницу
 };
 
 var onMouseDown = function () {
   activateState();
 };
 
-var closePopup = function() {
+var closePopup = function () {
   document.querySelector('.popup').remove();
   document.removeEventListener('keydown', onClosePopup);
 };
-var onClosePopup = function(evt) {
+var onClosePopup = function (evt) {
   if (evt.keyCode === ESC_BUTTON) {
     closePopup();
   }
