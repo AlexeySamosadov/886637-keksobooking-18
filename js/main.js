@@ -4,7 +4,6 @@ var advertPin = document.querySelector('.map__pins');
 var map = document.querySelector('.map');
 var mapConteiner = map.querySelector('.map__filters-container');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
-var fragmentPin = document.createDocumentFragment();
 var featuresTemplate = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var CARD_TITLES = ['Новая квартира около метро', 'Ретро квартира', 'Современная квартира Аригато', 'Уютная комната в центре Токио', 'Новый евроремонт', 'Отель с видом на Башню', 'Комната у парка', 'Эксклюзивный Пент-Хаус'];
 var CARDS_DESCRIPTION = [
@@ -43,29 +42,17 @@ var numberRoomValue = +numberRoom.value;
 var numberGuestValue = +numberGuest.value;
 var timeIn = document.querySelector('#timein');
 var timeOut = document.querySelector('#timeout');
-var popuptTitile = document.querySelector('#title');
 
-var housingTypes = {
-  FLAT: '1000',
-  PALACE: '10000',
-  HOUSE: '5000',
-  BUNGALO: '0'
+var HousingTypes = {
+  FLAT: 1000,
+  PALACE: 10000,
+  HOUSE: 5000,
+  BUNGALO: 0
 };
 
 var changePlaceholder = function () {
-  priceNumber.setAttribute('placeholder', housingTypes[typeNumber.value.toUpperCase()]);
-};
-
-var errorPriceNumber = function (priceOfNumber, maxPrice) {
-  priceNumber.setCustomValidity('');
-  if (priceOfNumber > maxPrice) {
-    priceNumber.setCustomValidity('Введите максимальное значение цены меньше ' + maxPrice);
-  } else if (!priceOfNumber) {
-    priceNumber.setCustomValidity('Введите значение цены');
-  }
-  if (priceOfNumber < +housingTypes[typeNumber.value.toUpperCase()]) {
-    priceNumber.setCustomValidity('Введите минимальное значение цены больше ' + housingTypes[typeNumber.value.toUpperCase()]);
-  }
+  priceNumber.setAttribute('placeholder', HousingTypes[typeNumber.value.toUpperCase()]);
+  priceNumber.setAttribute('min', HousingTypes[typeNumber.value.toUpperCase()]);
 };
 
 var findCordination = function (elem) {
@@ -93,7 +80,11 @@ var deactiveState = function () {
 
 var activateState = function () {
   map.classList.remove('map--faded');
-  addPin();
+  var appartments = generateArray();
+  var fragmentPin = document.createDocumentFragment();
+  for (var i = 0; i < appartments.length; i++) {
+    fragmentPin.appendChild(addPin(appartments[i]));
+  }
   advertPin.appendChild(fragmentPin);
   for (var i = 0; i < addFormFieldsets.length; i++) {
     addFormFieldsets[i].removeAttribute('disabled', 'disabled');
@@ -101,15 +92,16 @@ var activateState = function () {
   addForm.classList.remove('ad-form--disabled');
   mapFilters.classList.remove('map__filters--disabled');
   findCordination(inputAdress);
+  mapPin.removeEventListener('mousedown', onMouseDown);
 
-  var createdMapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-  for (var j = 0; j < createdMapPins.length; j++) {
-    insertCardOnMap(appartments[j], createdMapPins[j]);
-  }
-  priceNumber.setAttribute('placeholder', '1000');
-  inputAdress.setAttribute('disabled', 'disabled');
-  priceNumber.setAttribute('required', 'required');
-  popuptTitile.setAttribute('required', 'required');
+//   var createdMapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+//   // for (var j = 0; j < createdMapPins.length; j++) {
+//   //   insertCardOnMap(appartments[j], createdMapPins[j]);
+//   // }
+//   priceNumber.setAttribute('placeholder', '1000');
+//   inputAdress.setAttribute('disabled', 'disabled');
+//   priceNumber.setAttribute('required', 'required');
+//   popuptTitile.setAttribute('required', 'required');
 };
 
 var onPopupEscPress = function (evt) {
@@ -123,22 +115,13 @@ var onPopupEscPress = function (evt) {
 var popupClose = function () {
   var popupCloser = document.querySelector('.popup__close');
   var card = document.querySelector('.map__card');
+
   document.addEventListener('keydown', onPopupEscPress);
   popupCloser.addEventListener('click', function () {
     card.remove();
     document.removeEventListener('keydown', onPopupEscPress);
   });
 
-};
-
-var insertCardOnMap = function (element, card) {
-  card.addEventListener('click', function () {
-    if (document.querySelector('.map__card')) {
-      document.querySelector('.map__card').remove();
-    }
-    map.insertBefore(createNewCards(element), mapConteiner); // Добавляет карточку на страницу
-    popupClose();
-  });
 };
 
 var randomNumber = function (minNumber, maxNumber) {
@@ -214,18 +197,17 @@ var generateArray = function () {
   return arr;
 };
 
-var appartments = generateArray();
-
-var addPin = function () {
-  for (var i = 0; i < 8; i++) {
-    var newPin = templatePin.cloneNode(true);
-    newPin.style.left = appartments[i].location.x + '%';
-    newPin.style.top = appartments[i].location.y + 'px';
-    var imagePin = newPin.querySelector('img');
-    imagePin.setAttribute('src', appartments[i].author.avatar);
-    imagePin.setAttribute('alt', appartments[i].offer.title);
-    fragmentPin.appendChild(newPin);
-  }
+var addPin = function (appartment) {
+  var newPin = templatePin.cloneNode(true);
+  newPin.style.left = appartment.location.x + '%';
+  newPin.style.top = appartment.location.y + 'px';
+  var imagePin = newPin.querySelector('img');
+  imagePin.setAttribute('src', appartment.author.avatar);
+  imagePin.setAttribute('alt', appartment.offer.title);
+  newPin.addEventListener('click', function () {
+    createNewCards(appartment);
+  });
+  return newPin;
 };
 
 var translateBungaloType = function (bungaloType) {
@@ -274,12 +256,28 @@ var createNewCards = function (arr) {
   }
 
   popupAvatar.src = arr.author.avatar;
-  return cardTemple;
+  var closeButton = cardTemple.querySelector('.popup__close');
+  closeButton.addEventListener('click', function () {
+    closePopup();
+  });
+  document.addEventListener('keydown', onClosePopup);
+  map.insertBefore(cardTemple, mapConteiner);                   // Добавляет карточку на страницу
 };
 
-mapPin.addEventListener('mousedown', function () {
+var onMouseDown = function () {
   activateState();
-});
+};
+
+var closePopup = function() {
+  document.querySelector('.popup').remove();
+  document.removeEventListener('keydown', onClosePopup);
+};
+var onClosePopup = function(evt) {
+  if (evt.keyCode === ESC_BUTTON) {
+    closePopup();
+  }
+};
+mapPin.addEventListener('mousedown', onMouseDown);
 
 mapPin.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_BUTTON_NUMBER) {
@@ -291,12 +289,10 @@ mapPin.addEventListener('keydown', function (evt) {
 numberRoom.addEventListener('change', onErrorRoomGuest);
 numberGuest.addEventListener('change', onErrorRoomGuest);
 formSubmit.addEventListener('click', onErrorRoomGuest); // Почему тут обрабочик на событие Submit не работает ( не останавливает отправку формы даже с evt.preventDefault() )?
-priceNumber.addEventListener('change', function () {
+/* priceNumber.addEventListener('change', function () {
   errorPriceNumber(priceNumber.value, 1000000);
-  changePlaceholder();
-});
+});*/
 typeNumber.addEventListener('change', function () {
-  errorPriceNumber(priceNumber.value, 1000000);
   changePlaceholder();
 });
 
