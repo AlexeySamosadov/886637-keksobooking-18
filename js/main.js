@@ -45,15 +45,15 @@ var timeIn = document.querySelector('#timein');
 var timeOut = document.querySelector('#timeout');
 var popuptTitile = document.querySelector('#title');
 
-var changePlaceholder = function () {
-  priceNumber.setAttribute('placeholder', housingTypes[typeNumber.value.toUpperCase()]);
-};
-
 var housingTypes = {
   FLAT: '1000',
   PALACE: '10000',
   HOUSE: '5000',
   BUNGALO: '0'
+};
+
+var changePlaceholder = function () {
+  priceNumber.setAttribute('placeholder', housingTypes[typeNumber.value.toUpperCase()]);
 };
 
 var errorPriceNumber = function (priceOfNumber, maxPrice) {
