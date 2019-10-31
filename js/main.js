@@ -2,9 +2,9 @@
 
 var advertPin = document.querySelector('.map__pins');
 var map = document.querySelector('.map');
+var mapConteiner = map.querySelector('.map__filters-container');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
-var fragmentPin = document.createDocumentFragment();
-var fragmentCard = document.createDocumentFragment();
+var featuresTemplate = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var CARD_TITLES = ['Новая квартира около метро', 'Ретро квартира', 'Современная квартира Аригато', 'Уютная комната в центре Токио', 'Новый евроремонт', 'Отель с видом на Башню', 'Комната у парка', 'Эксклюзивный Пент-Хаус'];
 var CARDS_DESCRIPTION = [
   'Уютная квартира рядом с прекрасным парком, в шаговой доступности от метро Щукинская, рядом торговый центр',
@@ -16,18 +16,96 @@ var CARDS_DESCRIPTION = [
   'Стильная, современная и очень теплая квартира рядом с Киевским вокзалом. Дом находится во дворе, что обеспечивает тишину. Квартира - студия, в ней есть всё необходимое для комфортного проживания.'
 ];
 var FLAT_TYPE = ['palace', 'flat', 'house', 'bungalo'];
+var ENTER_BUTTON_NUMBER = 13;
+var FlatTypes = {
+  FLAT: 'Квартира',
+  PALACE: 'Дворец',
+  HOUSE: 'Дом',
+  BUNGALO: 'Бунгало'
+};
 
-var init = function () {
+var X_PIN = 32;
+var Y_PIN = 75;
+var ESC_BUTTON = 27;
+
+var mapPin = document.querySelector('.map__pin--main');
+var addForm = document.querySelector('.ad-form');
+var addFormFieldsets = addForm.querySelectorAll('fieldset');
+var mapFilters = document.querySelector('.map__filters');
+var inputAdress = document.querySelector('#address');
+var numberRoom = document.querySelector('#room_number');
+var numberGuest = document.querySelector('#capacity');
+var formSubmit = document.querySelector('.ad-form__submit');
+var priceNumber = document.querySelector('#price');
+var typeNumber = document.querySelector('#type');
+var numberRoomValue = +numberRoom.value;
+var numberGuestValue = +numberGuest.value;
+var timeIn = document.querySelector('#timein');
+var timeOut = document.querySelector('#timeout');
+
+var HousingTypes = {
+  FLAT: 1000,
+  PALACE: 10000,
+  HOUSE: 5000,
+  BUNGALO: 0
+};
+
+var changePlaceholder = function () {
+  priceNumber.setAttribute('placeholder', HousingTypes[typeNumber.value.toUpperCase()]);
+  priceNumber.setAttribute('min', HousingTypes[typeNumber.value.toUpperCase()]);
+};
+
+var findCordination = function (elem) {
+  var cordyX = Math.round(mapPin.getBoundingClientRect().x + X_PIN);
+  var cordyY = Math.round(mapPin.getBoundingClientRect().y + Y_PIN + pageYOffset);
+  return elem.setAttribute('value', cordyX + ', ' + cordyY);
+};
+
+var onErrorRoomGuest = function () {
+  numberRoom.setCustomValidity('');
+  numberGuest.setCustomValidity('');
+  if ((numberRoomValue === 100 && numberGuestValue !== 0) || (numberRoomValue !== 100 && numberGuestValue === 0)) {
+    numberRoom.setCustomValidity('Количество комнат не соответсвует количеству гостей');
+  } else if (numberRoomValue < numberGuestValue) {
+    numberRoom.setCustomValidity('Количество комнат не соответсвует количеству гостей');
+  }
+};
+
+var deactiveState = function () {
+  for (var i = 0; i < addFormFieldsets.length; i++) {
+    addFormFieldsets[i].setAttribute('disabled', 'disabled');
+  }
+  mapFilters.classList.add('map__filters--disabled');
+};
+
+var activateState = function () {
   map.classList.remove('map--faded');
+  var appartments = generateArray();
+  var fragmentPin = document.createDocumentFragment();
+  for (var i = 0; i < appartments.length; i++) {
+    fragmentPin.appendChild(addPin(appartments[i]));
+  }
   advertPin.appendChild(fragmentPin);
-  map.appendChild(fragmentCard);
+  for (i = 0; i < addFormFieldsets.length; i++) {
+    addFormFieldsets[i].removeAttribute('disabled', 'disabled');
+  }
+  addForm.classList.remove('ad-form--disabled');
+  mapFilters.classList.remove('map__filters--disabled');
+  findCordination(inputAdress);
+  mapPin.removeEventListener('mousedown', onMouseDown);
+
+//   var createdMapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+//   // for (var j = 0; j < createdMapPins.length; j++) {
+//   //   insertCardOnMap(appartments[j], createdMapPins[j]);
+//   // }
+//   inputAdress.setAttribute('disabled', 'disabled');
 };
 
 var randomNumber = function (minNumber, maxNumber) {
   if (arguments.length > 2) {
     return 0;
   } else if (arguments.length === 2) {
-    return Math.floor(Math.random() * (maxNumber + 1 - minNumber) + minNumber);
+    return Math.ceil(Math.random() * (maxNumber - minNumber) + minNumber);
   } else if (arguments.length === 1) {
     return Math.round(Math.random() * minNumber);
   } else {
@@ -35,34 +113,17 @@ var randomNumber = function (minNumber, maxNumber) {
   }
 };
 
-var generateCordinate = function () {
-  return randomNumber(1000) + ', ' + randomNumber(1000);
-};
-
-var generateFlat = function () {
-  return FLAT_TYPE[randomNumber(4)];
-};
-
-var generateRooms = function () {
-  return randomNumber(1, 5);
-};
-
-var generateGuestNumber = function () {
-  return randomNumber(7);
-};
-
 var generateCheckInOutTime = function () {
   var checkInTimes = ['12:00', '13:00', '14:00'];
   return checkInTimes[randomNumber(2)];
 };
 
-var generateFeatures = function () {
-  var featuresTemplate = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-  var arrayLength = randomNumber(5);
+var generateFeatures = function (features) {
+  var arrayLength = randomNumber(features.length - 1);
   var generatedFeatures = [];
 
   for (var i = 0; i < arrayLength; i++) {
-    generatedFeatures.push(featuresTemplate[i]);
+    generatedFeatures.push(features[i]);
   }
 
   return generatedFeatures;
@@ -79,14 +140,6 @@ var generatePhotos = function () {
   return generatedPhotos;
 };
 
-var generateMapCordinateX = function () {
-  return randomNumber(1, 100);
-};
-
-var generateMapCordinateY = function () {
-  return randomNumber(130, 630);
-};
-
 var generateArray = function () {
   var arr = [];
 
@@ -98,21 +151,21 @@ var generateArray = function () {
 
       'offer': {
         'title': CARD_TITLES[i],
-        'address': generateCordinate(),
+        'address': randomNumber(1000) + ', ' + randomNumber(1000),
         'price': randomNumber(10000),
-        'type': generateFlat(),
-        'rooms': generateRooms(),
-        'guests': generateGuestNumber(),
+        'type': FLAT_TYPE[randomNumber(4)],
+        'rooms': randomNumber(1, 5),
+        'guests': randomNumber(7),
         'checkin': generateCheckInOutTime(),
         'checkout': generateCheckInOutTime(),
-        'features': generateFeatures(),
+        'features': generateFeatures(featuresTemplate),
         'description': CARDS_DESCRIPTION[i],
         'photos': generatePhotos()
       },
 
       'location': {
-        'x': generateMapCordinateX(),
-        'y': generateMapCordinateY()
+        'x': randomNumber(1, 100),
+        'y': randomNumber(130, 630)
       }
     };
     arr.push(cardTemplate);
@@ -121,35 +174,25 @@ var generateArray = function () {
   return arr;
 };
 
-var appartments = generateArray();
-
-var addPin = function () {
-  for (var i = 0; i < 8; i++) {
-    var newPin = templatePin.cloneNode(true);
-    newPin.style.left = appartments[i].location.x + '%';
-    newPin.style.top = appartments[i].location.y + 'px';
-    var imagePin = newPin.querySelector('img');
-    imagePin.setAttribute('src', appartments[i].author.avatar);
-    imagePin.setAttribute('alt', appartments[i].offer.title);
-    fragmentPin.appendChild(newPin);
-  }
+var addPin = function (appartment) {
+  var newPin = templatePin.cloneNode(true);
+  newPin.style.left = appartment.location.x + '%';
+  newPin.style.top = appartment.location.y + 'px';
+  var imagePin = newPin.querySelector('img');
+  imagePin.setAttribute('src', appartment.author.avatar);
+  imagePin.setAttribute('alt', appartment.offer.title);
+  newPin.addEventListener('click', function () {
+    createNewCards(appartment);
+  });
+  return newPin;
 };
 
 var translateBungaloType = function (bungaloType) {
-  if (bungaloType === 'flat') {
-    bungaloType = 'Квартира';
-  } else if (bungaloType === 'bungalo') {
-    bungaloType = 'Бунгало';
-  } else if (bungaloType === 'house') {
-    bungaloType = 'Дом';
-  } else if (bungaloType === 'palace') {
-    bungaloType = 'Дворец';
-  }
-  return bungaloType;
+  return FlatTypes[bungaloType.toUpperCase()];
 };
 
-var createNewCards = function () {
-  var cardTemple = document.querySelector('#card').content;
+var createNewCards = function (arr) {
+  var cardTemple = document.querySelector('#card').content.cloneNode(true);
   var mapCard = cardTemple.querySelector('.map__card');
   var popupTitle = mapCard.querySelector('.popup__title');
   var popupAdress = mapCard.querySelector('.popup__text--address');
@@ -163,37 +206,80 @@ var createNewCards = function () {
   var popupPhoto = popupPhotos.querySelector('.popup__photo');
   var popupAvatar = mapCard.querySelector('.popup__avatar');
 
-  for (var i = 0; i < 8; i++) {
-    var newMapCard = mapCard.cloneNode(true);
-    popupTitle.textContent = appartments[i].offer.title;
-    popupAdress.textContent = appartments[i].offer.address;
-    popupPrice.textContent = appartments[i].offer.price + '₽/ночь.';
-    popupType.textContent = translateBungaloType(appartments[i].offer.type);
-    popupCapacity.textContent = appartments[i].offer.rooms + ' Комнаты для ' + appartments[i].offer.guests + ' Гостей';
-    popupTime.textContent = 'Заезд после ' + appartments[i].offer.checkin + ', выезд до ' + appartments[i].offer.checkout;
 
-    popupFeatures.innerHTML = '';
-    for (var j = 0; j < appartments[i].offer.features.length; j++) {
-      var newList = document.createElement('li');
-      newList.classList.add('popup__feature');
-      newList.classList.add('popup__feature--' + appartments[i].offer.features[j]);
-      popupFeatures.appendChild(newList);
-    }
-    popupDescription.textContent = appartments[i].offer.description;
+  // var newMapCard = mapCard.cloneNode(true);
+  popupTitle.textContent = arr.offer.title;
+  popupAdress.textContent = arr.offer.address;
+  popupPrice.textContent = arr.offer.price + '₽/ночь.';
+  popupType.textContent = translateBungaloType(arr.offer.type);
+  popupCapacity.textContent = arr.offer.rooms + ' Комнаты для ' + arr.offer.guests + ' Гостей';
+  popupTime.textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
 
-    popupPhotos.innerHTML = '';
-    for (j = 0; j < appartments[i].offer.photos.length; j++) {
-      var newPhoto = popupPhoto.cloneNode(true);
-      newPhoto.src = appartments[i].offer.photos[j];
-      newPhoto.setAttribute('alt', appartments[i].offer.title);
-      popupPhotos.appendChild(newPhoto);
-    }
+  popupFeatures.innerHTML = '';
+  for (var j = 0; j < arr.offer.features.length; j++) {
+    var newList = document.createElement('li');
+    newList.classList.add('popup__feature');
+    newList.classList.add('popup__feature--' + arr.offer.features[j]);
+    popupFeatures.appendChild(newList);
+  }
+  popupDescription.textContent = arr.offer.description;
 
-    popupAvatar.src = appartments[i].author.avatar;
-    fragmentCard.appendChild(newMapCard);
+  popupPhotos.innerHTML = '';
+  for (j = 0; j < arr.offer.photos.length; j++) {
+    var newPhoto = popupPhoto.cloneNode(true);
+    newPhoto.src = arr.offer.photos[j];
+    newPhoto.alt = arr.offer.title;
+    popupPhotos.appendChild(newPhoto);
+  }
+
+  popupAvatar.src = arr.author.avatar;
+  var closeButton = cardTemple.querySelector('.popup__close');
+  closeButton.addEventListener('click', function () {
+    closePopup();
+  });
+  document.addEventListener('keydown', onClosePopup);
+  map.insertBefore(cardTemple, mapConteiner); // Добавляет карточку на страницу
+};
+
+var onMouseDown = function () {
+  activateState();
+};
+
+var closePopup = function () {
+  document.querySelector('.popup').remove();
+  document.removeEventListener('keydown', onClosePopup);
+};
+var onClosePopup = function (evt) {
+  if (evt.keyCode === ESC_BUTTON) {
+    closePopup();
   }
 };
-addPin();
-createNewCards();
-init();
+mapPin.addEventListener('mousedown', onMouseDown);
+
+mapPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_BUTTON_NUMBER) {
+    activateState();
+  }
+});
+
+
+numberRoom.addEventListener('change', onErrorRoomGuest);
+numberGuest.addEventListener('change', onErrorRoomGuest);
+formSubmit.addEventListener('click', onErrorRoomGuest); // Почему тут обрабочик на событие Submit не работает ( не останавливает отправку формы даже с evt.preventDefault() )?
+/* priceNumber.addEventListener('change', function () {
+  errorPriceNumber(priceNumber.value, 1000000);
+});*/
+typeNumber.addEventListener('change', function () {
+  changePlaceholder();
+});
+
+timeIn.addEventListener('change', function () {
+  timeOut.value = timeIn.value;
+});
+timeOut.addEventListener('change', function () {
+  timeIn.value = timeOut.value;
+});
+
+deactiveState();
+
 
