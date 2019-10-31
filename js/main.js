@@ -147,7 +147,7 @@ var generateArray = function () {
         'title': CARD_TITLES[i],
         'address': randomNumber(1000) + ', ' + randomNumber(1000),
         'price': randomNumber(10000),
-        'type': FLAT_TYPE[randomNumber(4)],
+        'type': FLAT_TYPE[randomNumber(3)],
         'rooms': randomNumber(1, 5),
         'guests': randomNumber(7),
         'checkin': generateCheckInOutTime(),
