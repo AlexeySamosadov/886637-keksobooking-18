@@ -88,7 +88,7 @@ var deactiveState = function () {
   for (var i = 0; i < addFormFieldsets.length; i++) {
     addFormFieldsets[i].setAttribute('disabled', 'disabled');
   }
-  mapFilters.classList.add('mapartmentsp__filters--disabled');
+  mapFilters.classList.add('map__filters--disabled');
 };
 
 var activateState = function () {
@@ -116,16 +116,19 @@ var onPopupEscPress = function (evt) {
   var card = document.querySelector('.map__card');
   if (evt.keyCode === ESC_BUTTON) {
     card.remove();
+    document.removeEventListener('keydown', onPopupEscPress);
   }
 };
 
 var popupClose = function () {
   var popupCloser = document.querySelector('.popup__close');
   var card = document.querySelector('.map__card');
+  document.addEventListener('keydown', onPopupEscPress);
   popupCloser.addEventListener('click', function () {
     card.remove();
+    document.removeEventListener('keydown', onPopupEscPress);
   });
-  document.addEventListener('keydown', onPopupEscPress);
+
 };
 
 var insertCardOnMap = function (element, card) {
