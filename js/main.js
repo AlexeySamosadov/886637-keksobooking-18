@@ -176,6 +176,9 @@ var addPin = function (appartment) {
   imagePin.setAttribute('src', appartment.author.avatar);
   imagePin.setAttribute('alt', appartment.offer.title);
   newPin.addEventListener('click', function () {
+    if (document.querySelector('.popup')) {
+      document.querySelector('.popup').remove();
+    }
     createNewCards(appartment);
   });
   return newPin;
@@ -184,6 +187,8 @@ var addPin = function (appartment) {
 var translateBungaloType = function (bungaloType) {
   return FlatTypes[bungaloType.toUpperCase()];
 };
+
+
 
 var createNewCards = function (arr) {
   var cardTemple = document.querySelector('#card').content.cloneNode(true);
