@@ -249,7 +249,6 @@ var onClosePopup = function (evt) {
   }
 };
 
-
 mapPin.addEventListener('mousedown', onMouseDown);
 mapPin.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_BUTTON_NUMBER) {
