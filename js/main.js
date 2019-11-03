@@ -164,7 +164,6 @@ var generateArray = function () {
     };
     arr.push(cardTemplate);
   }
-
   return arr;
 };
 
@@ -208,7 +207,7 @@ var createNewCards = function (arr) {
   // var newMapCard = mapCard.cloneNode(true);
   popupTitle.textContent = arr.offer.title;
   popupAdress.textContent = arr.offer.address;
-  popupPrice.textContent = arr.offer.price + '₽/ночь.';
+  popupPrice.textContent = arr.offer.price + ' ₽/ночь.';
   popupType.textContent = translateBungaloType(arr.offer.type);
   popupCapacity.textContent = arr.offer.rooms + ' Комнаты для ' + arr.offer.guests + ' Гостей';
   popupTime.textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
