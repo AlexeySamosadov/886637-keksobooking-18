@@ -1,16 +1,7 @@
 'use strict';
 
 var advertPin = document.querySelector('.map__pins');
-var map = document.querySelector('.map');
-var mapConteiner = map.querySelector('.map__filters-container');
-var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 
-var FlatTypes = {
-  FLAT: 'Квартира',
-  PALACE: 'Дворец',
-  HOUSE: 'Дом',
-  BUNGALO: 'Бунгало'
-};
 
 var X_PIN = 32;
 var Y_PIN = 75;
@@ -66,11 +57,11 @@ var deactiveState = function () {
 };
 
 var activateState = function () {
-  map.classList.remove('map--faded');
+  window.map.classList.remove('map--faded');
   var appartments = window.data.generateArray();
   var fragmentPin = document.createDocumentFragment();
   for (var i = 0; i < appartments.length; i++) {
-    fragmentPin.appendChild(addPin(appartments[i]));
+    fragmentPin.appendChild(window.addPin(appartments[i]));
   }
   advertPin.appendChild(fragmentPin);
   for (i = 0; i < addFormFieldsets.length; i++) {
@@ -82,85 +73,16 @@ var activateState = function () {
   mapPin.removeEventListener('mousedown', onMouseDown);
 };
 
-var addPin = function (appartment) {
-  var newPin = templatePin.cloneNode(true);
-  newPin.style.left = appartment.location.x + '%';
-  newPin.style.top = appartment.location.y + 'px';
-  var imagePin = newPin.querySelector('img');
-  imagePin.setAttribute('src', appartment.author.avatar);
-  imagePin.setAttribute('alt', appartment.offer.title);
-  newPin.addEventListener('click', function () {
-    if (document.querySelector('.popup')) {
-      document.querySelector('.popup').remove();
-    }
-    createNewCards(appartment);
-  });
-  return newPin;
-};
-
-var translateBungaloType = function (bungaloType) {
-  return FlatTypes[bungaloType.toUpperCase()];
-};
-
-var createNewCards = function (arr) {
-  var cardTemple = document.querySelector('#card').content.cloneNode(true);
-  var mapCard = cardTemple.querySelector('.map__card');
-  var popupTitle = mapCard.querySelector('.popup__title');
-  var popupAdress = mapCard.querySelector('.popup__text--address');
-  var popupPrice = mapCard.querySelector('.popup__text--price');
-  var popupType = mapCard.querySelector('.popup__type');
-  var popupCapacity = mapCard.querySelector('.popup__text--capacity');
-  var popupTime = mapCard.querySelector('.popup__text--time ');
-  var popupFeatures = mapCard.querySelector('.popup__features');
-  var popupDescription = mapCard.querySelector('.popup__description');
-  var popupPhotos = mapCard.querySelector('.popup__photos');
-  var popupPhoto = popupPhotos.querySelector('.popup__photo');
-  var popupAvatar = mapCard.querySelector('.popup__avatar');
-
-  // var newMapCard = mapCard.cloneNode(true);
-  popupTitle.textContent = arr.offer.title;
-  popupAdress.textContent = arr.offer.address;
-  popupPrice.textContent = arr.offer.price + ' ₽/ночь.';
-  popupType.textContent = translateBungaloType(arr.offer.type);
-  popupCapacity.textContent = arr.offer.rooms + ' Комнаты для ' + arr.offer.guests + ' Гостей';
-  popupTime.textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
-
-  popupFeatures.innerHTML = '';
-  for (var j = 0; j < arr.offer.features.length; j++) {
-    var newList = document.createElement('li');
-    newList.classList.add('popup__feature');
-    newList.classList.add('popup__feature--' + arr.offer.features[j]);
-    popupFeatures.appendChild(newList);
-  }
-  popupDescription.textContent = arr.offer.description;
-
-  popupPhotos.innerHTML = '';
-  for (j = 0; j < arr.offer.photos.length; j++) {
-    var newPhoto = popupPhoto.cloneNode(true);
-    newPhoto.src = arr.offer.photos[j];
-    newPhoto.alt = arr.offer.title;
-    popupPhotos.appendChild(newPhoto);
-  }
-
-  popupAvatar.src = arr.author.avatar;
-  var closeButton = cardTemple.querySelector('.popup__close');
-  closeButton.addEventListener('click', function () {
-    closePopup();
-  });
-  document.addEventListener('keydown', onClosePopup);
-  map.insertBefore(cardTemple, mapConteiner); // Добавляет карточку на страницу
-};
-
 var onMouseDown = function () {
   activateState();
 };
 
-var closePopup = function () {
+window.closePopup = function () {
   document.querySelector('.popup').remove();
-  document.removeEventListener('keydown', onClosePopup);
+  document.removeEventListener('keydown', window.onClosePopup);
 };
-var onClosePopup = function (evt) {
-  window.util.isEscEvent(evt, closePopup());
+window.onClosePopup = function (evt) {
+  window.util.isEscEvent(evt, window.closePopup());
 };
 
 mapPin.addEventListener('mousedown', onMouseDown);
