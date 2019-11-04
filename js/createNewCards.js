@@ -1,9 +1,6 @@
 'use strict';
 
 (function () {
-  window.createNewCards = function () {
-
-  };
   var mapConteiner = window.map.querySelector('.map__filters-container');
   var FlatTypes = {
     FLAT: 'Квартира',
@@ -13,6 +10,14 @@
   };
   var translateBungaloType = function (bungaloType) {
     return FlatTypes[bungaloType.toUpperCase()];
+  };
+
+  var closePopup = function () {
+    document.querySelector('.popup').remove();
+    document.removeEventListener('keydown', onClosePopup);
+  };
+  var onClosePopup = function (evt) {
+    window.util.isEscEvent(evt, closePopup());
   };
 
   window.createNewCards = function (arr) {
@@ -58,9 +63,9 @@
     popupAvatar.src = arr.author.avatar;
     var closeButton = cardTemple.querySelector('.popup__close');
     closeButton.addEventListener('click', function () {
-      window.closePopup();
+      closePopup();
     });
-    document.addEventListener('keydown', window.onClosePopup);
+    document.addEventListener('keydown', onClosePopup);
     window.map.insertBefore(cardTemple, mapConteiner); // Добавляет карточку на страницу
   };
 })();
