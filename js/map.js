@@ -1,25 +1,26 @@
 'use strict';
 
 (function () {
-  window.map = document.querySelector('.map');
+  var map = document.querySelector('.map');
   var advertPin = document.querySelector('.map__pins');
   var mapPin = document.querySelector('.map__pin--main');
   var inputAdress = document.querySelector('#address');
   var addForm = document.querySelector('.ad-form');
   var addFormFieldsets = addForm.querySelectorAll('fieldset');
   var mapFilters = document.querySelector('.map__filters');
-
-  var X_PIN = 32;
-  var Y_PIN = 75;
+  var CORD_PIN = {
+    X: 32,
+    Y: 75
+  };
 
   var findCordination = function (elem) {
-    var cordyX = Math.round(mapPin.getBoundingClientRect().x + X_PIN);
-    var cordyY = Math.round(mapPin.getBoundingClientRect().y + Y_PIN + pageYOffset);
+    var cordyX = Math.round(mapPin.getBoundingClientRect().x + CORD_PIN.X);
+    var cordyY = Math.round(mapPin.getBoundingClientRect().y + CORD_PIN.Y + pageYOffset);
     return elem.setAttribute('value', cordyX + ', ' + cordyY);
   };
 
   var activateState = function () {
-    window.map.classList.remove('map--faded');
+    map.classList.remove('map--faded');
     var appartments = window.data.generateArray();
     var fragmentPin = document.createDocumentFragment();
     for (var i = 0; i < appartments.length; i++) {
@@ -51,5 +52,8 @@
     window.util.isEnterEvent(evt, activateState());
   });
 
+  window.map = {
+    map: map
+  };
   deactiveState();
 })();
