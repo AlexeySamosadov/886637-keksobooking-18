@@ -1,19 +1,25 @@
 'use strict';
 
 (function () {
-  var ENTER_BUTTON_NUMBER = 13;
-  var ESC_BUTTON_NUMBER = 27;
+  var BUTTON_NUMBER = {
+    ENTER: 13,
+    ESC: 27
+  };
+
+  var isEscEvent = function (evt, action) {
+    if (evt.keyCode === BUTTON_NUMBER.ESC) {
+      action();
+    }
+  };
+
+  var isEnterEvent = function (evt, action) {
+    if (evt.keyCode === BUTTON_NUMBER.ENTER) {
+      action();
+    }
+  };
 
   window.util = {
-    isEscEvent: function (evt, action) {
-      if (evt.keyCode === ESC_BUTTON_NUMBER) {
-        action();
-      }
-    },
-    isEnterEvent: function (evt, action) {
-      if (evt.keyCode === ENTER_BUTTON_NUMBER) {
-        action();
-      }
-    }
+    isEscEvent: isEscEvent,
+    isEnterEvent: isEnterEvent
   };
 })();
