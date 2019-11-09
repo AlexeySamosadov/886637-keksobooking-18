@@ -8,13 +8,17 @@
   var addForm = document.querySelector('.ad-form');
   var addFormFieldsets = addForm.querySelectorAll('fieldset');
   var mapFilters = document.querySelector('.map__filters');
+  var mapCords = map.getBoundingClientRect();
+  var mapPinCords = mapPin.getBoundingClientRect();
+  var mapPinHalfWidth = (mapPinCords.width / 2);
+  var mapPinHeight = mapPinCords.height;
   var CORD_PIN = {
-    X: 32,
-    Y: 75
+    X: mapPinHalfWidth,
+    Y: mapPinHeight
   };
 
   var findCordination = function (elem) {
-    var cordyX = Math.round(mapPin.getBoundingClientRect().x + CORD_PIN.X);
+    var cordyX = Math.round(mapPin.getBoundingClientRect().x - mapCords.left + CORD_PIN.X);
     var cordyY = Math.round(mapPin.getBoundingClientRect().y + CORD_PIN.Y + pageYOffset);
     return elem.setAttribute('value', cordyX + ', ' + cordyY);
   };
@@ -33,7 +37,6 @@
     addForm.classList.remove('ad-form--disabled');
     mapFilters.classList.remove('map__filters--disabled');
     findCordination(inputAdress);
-    mapPin.removeEventListener('mousedown', onMouseDown);
   };
 
   var deactiveState = function () {
@@ -42,15 +45,46 @@
     }
     mapFilters.classList.add('map__filters--disabled');
   };
-
   var onMouseDown = function () {
     activateState();
+    mapPin.removeEventListener('click', onMouseDown);
+    mapPin.addEventListener('mousedown', onPinHandler);
   };
 
-  mapPin.addEventListener('mousedown', onMouseDown);
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var left = moveEvt.pageX - mapCords.left - mapPinHalfWidth;
+    var top = moveEvt.pageY - (mapPinHeight * 1.25);
+
+    var limitedLeft = Math.min(mapCords.width - mapPinHalfWidth, Math.max(mapPinHalfWidth * (-1), left));
+    var limitedTop = Math.min(630 - mapPinHeight, Math.max(130 - mapPinHeight, top));
+
+    mapPin.style.left = limitedLeft + 'px';
+    mapPin.style.top = limitedTop + 'px';
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    findCordination(inputAdress);
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  var onPinHandler = function (evt) {
+    evt.preventDefault();
+    mapCords = map.getBoundingClientRect();
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  };
+
+  mapPin.addEventListener('click', onMouseDown);
   mapPin.addEventListener('keydown', function (evt) {
     window.util.isEnterEvent(evt, activateState());
   });
+
 
   window.map = {
     map: map
