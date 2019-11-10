@@ -5,7 +5,7 @@
 
   window.addPin = function (appartment) {
     var newPin = templatePin.cloneNode(true);
-    newPin.style.left = appartment.location.x + '%';
+    newPin.style.left = appartment.location.x + 'px';
     newPin.style.top = appartment.location.y + 'px';
     var imagePin = newPin.querySelector('img');
     imagePin.setAttribute('src', appartment.author.avatar);

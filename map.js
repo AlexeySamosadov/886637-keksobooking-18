@@ -44,6 +44,17 @@
     }
     mapFilters.classList.add('map__filters--disabled');
   };
+  // var errorHandler = function (errorMessage) {
+  //   var div = document.createElement('div');
+  //   div.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+  //   div.style.position = 'absolute';
+  //   div.style.left = 0;
+  //   div.style.rigth = 0;
+  //   div.style.fontSize = '30px';
+  //
+  //   div.textContent = errorMessage;
+  //   document.body.insertAdjacentElement('afterbegin', div);
+  // };
 
   var errorMessage = function () {
     var errorTemplate = document.querySelector('#error').content.cloneNode(true);
@@ -52,7 +63,8 @@
   };
 
   var onMouseDown = function () {
-    window.backend.load(activateState, errorMessage);
+    window.backend.load(activateState, errorMessage); // Не понимаю, почему тут не работает? Хотя activateState разблокирует карту но не получает массив.
+    // activateState(window.data.generateArray());
     mapPin.removeEventListener('click', onMouseDown);
     mapPin.addEventListener('mousedown', onPinHandler);
   };
@@ -72,8 +84,8 @@
 
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
-
     findCordination(inputAdress);
+
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
   };
@@ -88,7 +100,7 @@
 
   mapPin.addEventListener('click', onMouseDown);
   mapPin.addEventListener('keydown', function (evt) {
-    window.util.isEnterEvent(evt, window.backend.load(activateState, errorMessage));
+    window.util.isEnterEvent(evt, activateState());
   });
 
 
