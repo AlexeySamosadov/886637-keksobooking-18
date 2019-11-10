@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var form = document.querySelector('.ad-form');
   var formSubmit = document.querySelector('.ad-form__submit');
   var priceNumber = document.querySelector('#price');
   var typeNumber = document.querySelector('#type');
@@ -28,7 +29,7 @@
     numberGuest.setCustomValidity('');
     if ((numberRoomValue === 100 && numberGuestValue !== 0) || (numberRoomValue !== 100 && numberGuestValue === 0)) {
       numberRoom.setCustomValidity('Количество комнат не соответсвует количеству гостей');
-    } else if (numberRoomValue < numberGuestValue) {
+    } else if (+numberRoom.value < numberGuestValue) {    // Почему-то выдает ошибку если использоват тут переменную numberRoomValue
       numberRoom.setCustomValidity('Количество комнат не соответсвует количеству гостей');
     }
   };
@@ -46,4 +47,14 @@
   timeOut.addEventListener('change', function () {
     timeIn.value = timeOut.value;
   });
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(form), function (response) {
+      window.deactiveState();
+      window.Message.success();
+    }, window.Message.error);
+  });
+
+
 })();
