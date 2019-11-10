@@ -8,7 +8,7 @@
   };
   var SERVER_CODE_OK = 200;
   var TIMEOUT = 10000;
-  var startXhr = function (url, connectMetod, onSucces, onError, data) {
+  var startXhr = function (onSucces, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -28,16 +28,21 @@
     });
     xhr.timeout = TIMEOUT;
 
-    xhr.open(connectMetod, url);
-    xhr.send(data);
+    return xhr;
   };
 
   var load = function (onSucces, onError) {
-    startXhr(Url.GET, 'GET', onSucces, onError);
+    var xhr = startXhr(onSucces, onError);
+    console.log(xhr);
+    xhr.open('GET', Url.GET);
+    xhr.send();
   };
 
   var save = function (data, onSucces, onError) {
-    startXhr(Url.POST, 'POST', onSucces, onError, data);
+    var xhr = startXhr(onSucces, onError);
+    console.log(xhr);
+    xhr.open('POST', Url.POST);
+    xhr.send(data);
   };
 
   window.backend = {
