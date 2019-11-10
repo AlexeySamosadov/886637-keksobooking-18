@@ -2,9 +2,9 @@
 'use strict';
 
 (function () {
-  var URL = {
-    Get: 'https://js.dump.academy/keksobooking/data',
-    Post: 'https://js.dump.academy/keksobooking'
+  var Url = {
+    GET: 'https://js.dump.academy/keksobooking/data',
+    POST: 'https://js.dump.academy/keksobooking'
   };
   var SERVER_CODE_OK = 200;
   var TIMEOUT = 10000;
@@ -33,11 +33,11 @@
   };
 
   var load = function (onSucces, onError) {
-    startXhr(URL.Get, 'GET', onSucces, onError);
+    startXhr(Url.GET, 'GET', onSucces, onError);
   };
 
   var save = function (data, onSucces, onError) {
-    startXhr(URL.Post, 'POST', onSucces, onError, data);
+    startXhr(Url.POST, 'POST', onSucces, onError, data);
   };
 
   window.backend = {

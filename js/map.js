@@ -24,6 +24,7 @@
   };
 
   var activateState = function (appartments) {
+    console.log('Активате стате', appartments);
     map.classList.remove('map--faded');
     var fragmentPin = document.createDocumentFragment();
     for (var i = 0; i < appartments.length; i++) {
@@ -63,7 +64,7 @@
   };
 
   var onMouseDown = function () {
-    window.backend.load(activateState, errorMessage);  // Не понимаю, почему тут не работает?
+    window.backend.load(activateState, errorMessage); // Не понимаю, почему тут не работает? Хотя activateState разблокирует карту но не получает массив.
     // activateState(window.data.generateArray());
     mapPin.removeEventListener('click', onMouseDown);
     mapPin.addEventListener('mousedown', onPinHandler);
