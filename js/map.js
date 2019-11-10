@@ -24,7 +24,6 @@
   };
 
   var activateState = function (appartments) {
-    console.log('Активате стате', appartments);
     map.classList.remove('map--faded');
     var fragmentPin = document.createDocumentFragment();
     for (var i = 0; i < appartments.length; i++) {
