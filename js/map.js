@@ -72,8 +72,8 @@
 
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
-
     findCordination(inputAdress);
+
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
   };

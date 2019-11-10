@@ -33,14 +33,12 @@
 
   var load = function (onSucces, onError) {
     var xhr = startXhr(onSucces, onError);
-    console.log(xhr);
     xhr.open('GET', Url.GET);
     xhr.send();
   };
 
   var save = function (data, onSucces, onError) {
     var xhr = startXhr(onSucces, onError);
-    console.log(xhr);
     xhr.open('POST', Url.POST);
     xhr.send(data);
   };
