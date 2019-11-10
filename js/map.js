@@ -63,7 +63,7 @@
   };
 
   var onMouseDown = function () {
-    window.backend.load(activateState, errorMessage);
+    window.backend.load(activateState, errorMessage);  // Не понимаю, почему тут не работает?
     // activateState(window.data.generateArray());
     mapPin.removeEventListener('click', onMouseDown);
     mapPin.addEventListener('mousedown', onPinHandler);
