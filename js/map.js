@@ -23,9 +23,8 @@
     return elem.setAttribute('value', cordyX + ', ' + cordyY);
   };
 
-  var activateState = function () {
+  var activateState = function (appartments) {
     map.classList.remove('map--faded');
-    var appartments = window.data.generateArray();
     var fragmentPin = document.createDocumentFragment();
     for (var i = 0; i < appartments.length; i++) {
       fragmentPin.appendChild(window.addPin(appartments[i]));
@@ -45,8 +44,27 @@
     }
     mapFilters.classList.add('map__filters--disabled');
   };
+  // var errorHandler = function (errorMessage) {
+  //   var div = document.createElement('div');
+  //   div.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+  //   div.style.position = 'absolute';
+  //   div.style.left = 0;
+  //   div.style.rigth = 0;
+  //   div.style.fontSize = '30px';
+  //
+  //   div.textContent = errorMessage;
+  //   document.body.insertAdjacentElement('afterbegin', div);
+  // };
+
+  var errorMessage = function () {
+    var errorTemplate = document.querySelector('#error').content.cloneNode(true);
+
+    document.body.insertAdjacentElement('afterbegin', errorTemplate);
+  };
+
   var onMouseDown = function () {
-    activateState();
+    window.backend.load(activateState, errorMessage);
+    // activateState(window.data.generateArray());
     mapPin.removeEventListener('click', onMouseDown);
     mapPin.addEventListener('mousedown', onPinHandler);
   };
@@ -66,8 +84,8 @@
 
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
-
     findCordination(inputAdress);
+
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
   };
