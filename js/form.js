@@ -5,12 +5,15 @@
   var formSubmit = document.querySelector('.ad-form__submit');
   var priceNumber = document.querySelector('#price');
   var typeNumber = document.querySelector('#type');
+  var inputAdress = document.querySelector('#address');
   var numberRoom = document.querySelector('#room_number');
   var numberGuest = document.querySelector('#capacity');
   var numberRoomValue = +numberRoom.value;
   var numberGuestValue = +numberGuest.value;
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
+  var successMessage = window.Message.success;
+  var errorMessage = window.Message.error;
 
   var HousingTypes = {
     FLAT: 1000,
@@ -29,7 +32,7 @@
     numberGuest.setCustomValidity('');
     if ((numberRoomValue === 100 && numberGuestValue !== 0) || (numberRoomValue !== 100 && numberGuestValue === 0)) {
       numberRoom.setCustomValidity('Количество комнат не соответсвует количеству гостей');
-    } else if (+numberRoom.value < numberGuestValue) {    // Почему-то выдает ошибку если использоват тут переменную numberRoomValue
+    } else if (+numberRoom.value < numberGuestValue) { // Почему-то выдает ошибку если использоват тут переменную numberRoomValue
       numberRoom.setCustomValidity('Количество комнат не соответсвует количеству гостей');
     }
   };
@@ -50,10 +53,8 @@
 
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(form), function (response) {
-      window.deactiveState();
-      window.Message.success();
-    }, window.Message.error);
+    inputAdress.removeAttribute('disabled');
+    window.backend.save(new FormData(form), successMessage, errorMessage);
   });
 
 
