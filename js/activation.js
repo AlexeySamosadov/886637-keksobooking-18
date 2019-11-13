@@ -13,18 +13,16 @@
   var mapPinCords = mapPin.getBoundingClientRect();
   var mapPinHalfWidth = (mapPinCords.width / 2);
   var mapPinHeight = mapPinCords.height;
-  var CORD_PIN = {
-    X: mapPinHalfWidth,
-    Y: mapPinHeight
-  };
-  var CordMapPIN = {
+  var CordPin = {
+    halfWidth: mapPinHalfWidth,
+    height: mapPinHeight,
     X: 603,
     Y: 440
   };
 
   var findCordination = function (elem) {
-    var cordyX = Math.round(mapPin.getBoundingClientRect().x - mapCords.left + CORD_PIN.X);
-    var cordyY = Math.round(mapPin.getBoundingClientRect().y + CORD_PIN.Y + pageYOffset);
+    var cordyX = Math.round(mapPin.getBoundingClientRect().x - mapCords.left + CordPin.halfWidth);
+    var cordyY = Math.round(mapPin.getBoundingClientRect().y + CordPin.height + pageYOffset);
     return elem.setAttribute('value', cordyX + ', ' + cordyY);
   };
 
@@ -59,8 +57,8 @@
       addFormFieldsets[i].setAttribute('disabled', 'disabled');
     }
 
-    mapPin.style.left = CordMapPIN.X - CORD_PIN.x + 'px';
-    mapPin.style.top = CordMapPIN.y + 'px';
+    mapPin.style.left = CordPin.X - CordPin.halfWidth + 'px';
+    mapPin.style.top = CordPin.Y - CordPin.height + 'px';
 
     addForm.classList.add('ad-form--disabled');
     mapFilters.classList.add('map__filters--disabled');
