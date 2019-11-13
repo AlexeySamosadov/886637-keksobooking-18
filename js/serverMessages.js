@@ -27,6 +27,7 @@
     };
 
     deactiveState();
+    mapPin.addEventListener('click', onMouseDown);
 
     document.addEventListener('keydown', onPopupEscPress);
     errorButton.addEventListener('click', onClick);
