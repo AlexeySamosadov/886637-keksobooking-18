@@ -56,7 +56,8 @@
   });
 
   window.map = {
-    map: map
+    map: map,
+    onMouseDown: onMouseDown
   };
   deactiveState();
 })();

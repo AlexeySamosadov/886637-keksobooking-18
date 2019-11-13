@@ -2,39 +2,52 @@
 
 (function () {
   var deactiveState = window.activation.deactiveState;
-  var form = document.querySelector('.ad-form');
   var isEscEvent = window.util.isEscEvent;
-  // var isEnterEvent = window.util.isEnterEvent;
-  var errorMessage = function () {
+  var onMouseDown = window.map.onMouseDown;
+  var mapPin = window.activation.mapPin;
+  var closePopup;
+  var onPopupEscPress = function (evt) {
+    isEscEvent(evt, closePopup);
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
+  var onClick = function () {
+    closePopup();
+    document.removeEventListener('click', onClick);
+  };
 
+  var errorMessage = function () {
     var error = document.querySelector('#error')
       .content
       .querySelector('.error');
-
-    deactiveState();
-    form.reset();
     var errorTemplate = error.cloneNode(true);
     document.body.appendChild(errorTemplate);
+    var errorButton = errorTemplate.querySelector('.error__button');
+    closePopup = function () {
+      errorTemplate.remove();
+    };
 
+    deactiveState();
 
-    // var errorButton = errorTemplate.querySelector('.error__button');
-    // errorButton.addEventListener('click', function () {
-    //   document.removeChild(errorTemplate);
-    // });
-
-    document.addEventListener('keydown', isEscEvent(errorTemplate.remove));
+    document.addEventListener('keydown', onPopupEscPress);
+    errorButton.addEventListener('click', onClick);
+    document.addEventListener('click', onClick);
   };
 
-  var success = document.querySelector('#success')
-    .content
-    .querySelector('.success');
-
   var successMessage = function () {
-    deactiveState();
-    form.reset();
+    var success = document.querySelector('#success')
+      .content
+      .querySelector('.success');
     var successTemplate = success.cloneNode(true);
+    closePopup = function () {
+      successTemplate.remove();
+    };
+
+    deactiveState();
+    mapPin.addEventListener('click', onMouseDown);
+
     document.body.appendChild(successTemplate);
-    document.addEventListener('keydown', isEscEvent(successTemplate.remove));
+    document.addEventListener('keydown', onPopupEscPress);
+    document.addEventListener('click', onClick);
   };
 
   window.Message = {

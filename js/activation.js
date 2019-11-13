@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var form = document.querySelector('.ad-form');
   var map = document.querySelector('.map');
   var mapPin = document.querySelector('.map__pin--main');
   var addForm = document.querySelector('.ad-form');
@@ -16,6 +17,10 @@
     X: mapPinHalfWidth,
     Y: mapPinHeight
   };
+  var CordMapPIN = {
+    X: 603,
+    Y: 440
+  };
 
   var findCordination = function (elem) {
     var cordyX = Math.round(mapPin.getBoundingClientRect().x - mapCords.left + CORD_PIN.X);
@@ -23,12 +28,14 @@
     return elem.setAttribute('value', cordyX + ', ' + cordyY);
   };
 
+  var fragmentPin = document.createDocumentFragment();
   var activateState = function (appartments) {
     map.classList.remove('map--faded');
-    var fragmentPin = document.createDocumentFragment();
+
     for (var i = 0; i < appartments.length; i++) {
       fragmentPin.appendChild(window.addPin(appartments[i]));
     }
+
     advertPin.appendChild(fragmentPin);
     for (i = 0; i < addFormFieldsets.length; i++) {
       addFormFieldsets[i].removeAttribute('disabled', 'disabled');
@@ -36,14 +43,26 @@
     addForm.classList.remove('ad-form--disabled');
     mapFilters.classList.remove('map__filters--disabled');
     findCordination(inputAdress);
-    inputAdress.removeAttribute('disabled');
   };
 
   var deactiveState = function () {
+    form.reset();
+
     map.classList.add('map--faded');
-    for (var i = 0; i < addFormFieldsets.length; i++) {
+    var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    if (mapPins) {
+      for (var i = 0; i < mapPins.length; i++) {
+        mapPins[i].remove();
+      }
+    }
+    for (i = 0; i < addFormFieldsets.length; i++) {
       addFormFieldsets[i].setAttribute('disabled', 'disabled');
     }
+
+    mapPin.style.left = CordMapPIN.X - CORD_PIN.x + 'px';
+    mapPin.style.top = CordMapPIN.y + 'px';
+
+    addForm.classList.add('ad-form--disabled');
     mapFilters.classList.add('map__filters--disabled');
   };
 
