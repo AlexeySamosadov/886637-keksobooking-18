@@ -42,12 +42,6 @@
     updatePins();
   });
 
-
-  // window.numberValue[0] = housingType.value;
-
-  updatePins(); // запускаю внутри функции смены типа жилья
-
-
   window.filter = {
     filteredActivateState: filteredActivateState,
     updatePins: updatePins
