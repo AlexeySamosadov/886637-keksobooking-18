@@ -38,7 +38,6 @@
 
   housingType.addEventListener('change', function () {
     housingTypeValue = housingType.value;
-    console.log(housingType.value);
     updatePins();
   });
 
