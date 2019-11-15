@@ -11,9 +11,10 @@
     updatePins();
   };
 
+  var MAX_PINS_ON_MAP = 5;
   var houseSlice = function (arr) {
-    if (arr.length > 5) {
-      arr = arr.slice(5);
+    if (arr.length > MAX_PINS_ON_MAP) {
+      arr = arr.slice(MAX_PINS_ON_MAP);
     }
     return arr;
   };
