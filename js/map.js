@@ -14,10 +14,10 @@
 
   var findCordination = window.activation.findCordination;
 
-  var activateState = window.activation.activateState;
+  // var activateState = window.activation.activateState;
 
   var onMouseDown = function () {
-    window.backend.load(activateState, window.Message.error);
+    window.backend.load(filteredActivateState, window.Message.error);
 
     mapPin.removeEventListener('click', onMouseDown);
     mapPin.addEventListener('mousedown', onPinHandler);
