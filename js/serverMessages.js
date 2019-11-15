@@ -1,10 +1,7 @@
 'use strict';
 
 (function () {
-  var deactiveState = window.activation.deactiveState;
   var isEscEvent = window.util.isEscEvent;
-  var onMouseDown = window.map.onMouseDown;
-  var mapPin = window.activation.mapPin;
   var closePopup;
   var onPopupEscPress = function (evt) {
     isEscEvent(evt, closePopup);
@@ -26,8 +23,7 @@
       errorTemplate.remove();
     };
 
-    deactiveState();
-    mapPin.addEventListener('click', onMouseDown);
+    window.activation.deactiveState();
 
     document.addEventListener('keydown', onPopupEscPress);
     errorButton.addEventListener('click', onClick);
@@ -43,8 +39,7 @@
       successTemplate.remove();
     };
 
-    deactiveState();
-    mapPin.addEventListener('click', onMouseDown);
+    window.activation.deactiveState();
 
     document.body.appendChild(successTemplate);
     document.addEventListener('keydown', onPopupEscPress);

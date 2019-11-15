@@ -45,6 +45,7 @@
 
   var deactiveState = function () {
     form.reset();
+    mapPin.addEventListener('click', window.map.onMouseDown);
 
     map.classList.add('map--faded');
     var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
