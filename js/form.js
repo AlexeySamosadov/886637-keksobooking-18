@@ -41,14 +41,8 @@
   numberGuest.addEventListener('change', onErrorRoomGuest);
   formSubmit.addEventListener('click', onErrorRoomGuest);
 
-  var updatePins = window.filter.updatePins;
-
-
   typeNumber.addEventListener('change', function () {
     changePlaceholderAndMinValue();
-    window.numberValue[0] = typeNumber.value;
-
-    updatePins();
   });
   timeIn.addEventListener('change', function () {
     timeOut.value = timeIn.value;

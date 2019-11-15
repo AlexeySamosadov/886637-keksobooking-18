@@ -18,12 +18,12 @@
     return arr;
   };
 
-  window.numberValue = [];
+  var housingTypeValue;
   var updatePins = function () {
     activateState(housings);
 
     var filteredHousing = housings.filter(function (it) {
-      return it.offer.type === window.numberValue[0];
+      return it.offer.type === housingTypeValue;
     });
 
     if (filteredHousing.length === 0) {
@@ -32,6 +32,20 @@
       activateState(houseSlice(filteredHousing));
     }
   };
+
+  var mapFilter = document.querySelector('.map__filters');
+  var housingType = mapFilter.querySelector('#housing-type');
+
+  housingType.addEventListener('change', function () {
+    housingTypeValue = housingType.value;
+    console.log(housingType.value);
+    updatePins();
+  });
+
+
+  // window.numberValue[0] = housingType.value;
+
+  updatePins(); // запускаю внутри функции смены типа жилья
 
 
   window.filter = {
