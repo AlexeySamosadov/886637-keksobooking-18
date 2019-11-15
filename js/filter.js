@@ -26,10 +26,10 @@
       return it.offer.type === housingTypeValue;
     });
 
-    if (filteredHousing.length === 0) {
-      activateState(houseSlice(housings));
-    } else {
+    if (housingTypeValue) {
       activateState(houseSlice(filteredHousing));
+    } else {
+      activateState(houseSlice(housings));
     }
   };
 
