@@ -85,16 +85,13 @@
     });
     console.log(maxRang);
     console.log(sortedPins);
-    activateState(filteredHousing);
 
+    if (filteredHousing) {
+      activateState(houseSlice(filteredHousing));
+    } else {
+      activateState(houseSlice(housings));
+    }
 
-    // var filteredHousing = housings.filter(function (it) {
-    //   if (housingTypeValue) {
-    //     return it.offer.type === housingTypeValue;
-    //   } else if (housingPriceValue) {
-    //     return it.offer.price === housingPriceValue;
-    //   }
-    // });
 
     // var filteredHousing = housings
     //   .filter(function (it) {
