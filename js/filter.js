@@ -70,6 +70,12 @@
     }
   };
 
+  var typeActive = 0;
+  var priceActive = 0;
+  var roomsActive = 0;
+  var guestsActive = 0;
+  var wifiActive = 0;
+
   var updatePins = function () {
 
     var sortedPins = housings.slice().sort(function (a, b) {
@@ -78,15 +84,24 @@
       console.log('ранг Дифференc:', rangDiff);
       return rangDiff;
     });
+
+    var maxActiveFilters = typeActive + priceActive + roomsActive + guestsActive + wifiActive;
+
+    console.log('Колличество активных фильтров: ', maxActiveFilters);
+
     var maxRang = sortedPins[0].offer.rang;
+    var filteredHousing = [];
 
-    var filteredHousing = sortedPins.filter(function (it) {
-      return it.offer.rang === maxRang;
-    });
-    console.log(maxRang);
-    console.log(sortedPins);
+    if (maxRang > 0 && maxRang === maxActiveFilters) {
+      filteredHousing = sortedPins.filter(function (it) {
+        return it.offer.rang === maxRang;
+      });
+    }
 
-    if (filteredHousing) {
+    console.log('maxRang: ' , maxRang);
+    console.log(filteredHousing);
+
+    if (housingTypeValue || housingPriceValue || housingRoomsValue || housingGuestsValue || housingWifiValue) {
       activateState(houseSlice(filteredHousing));
     } else {
       activateState(houseSlice(housings));
@@ -119,23 +134,67 @@
 
   housingType.addEventListener('change', function () {
     housingTypeValue = housingType.value;
+    if (housingTypeValue === 'any') {
+      typeActive = 0;
+    } else {
+      typeActive = 1;
+    }
+
+    console.log('housingTypeValue:', housingTypeValue);
+    console.log('typeActive:', typeActive);
+
     updatePins();
   });
   housingPrice.addEventListener('change', function () {
     housingPriceValue = housingPrice.value;
+    if (housingPriceValue === 'any') {
+      priceActive = 0;
+    } else {
+      priceActive = 1;
+    }
+
+    console.log('housingPriceValue:', housingPriceValue);
+    console.log('priceActive:', priceActive);
+
     updatePins();
   });
   housingRooms.addEventListener('change', function () {
     housingRoomsValue = +housingRooms.value;
+    if (housingRoomsValue >= 0) {
+      roomsActive = 1;
+    } else {
+      roomsActive = 0;
+    }
+
+    console.log('housingRoomsValue:', housingRoomsValue);
+    console.log('roomsActive:', roomsActive);
+
     updatePins();
   });
   housingGuests.addEventListener('change', function () {
     housingGuestsValue = +housingGuests.value;
+    if (housingGuestsValue >= 0) {
+      guestsActive = 1;
+    } else {
+      guestsActive = 0;
+    }
+    console.log('housingGuestsValue:', housingGuestsValue);
+    console.log('guestsActive:', guestsActive);
     updatePins();
   });
 
-  housingWifi.addEventListener('change', function () {
+  housingWifi.addEventListener('click', function () {
     housingWifiValue = housingWifi.value;
+    if (housingWifiValue = 'wifi') {
+      wifiActive = 1;
+    } else {
+      wifiActive = 0;
+    }
+
+    console.log('housingWifi:', housingWifi);
+    console.log('housingWifiValue:', housingWifiValue);
+    console.log('wifiActive:', wifiActive);
+
     updatePins();
   });
 
