@@ -98,7 +98,7 @@
       });
     }
 
-    console.log('maxRang: ' , maxRang);
+    console.log('maxRang: ', maxRang);
     console.log(filteredHousing);
 
     if (housingTypeValue || housingPriceValue || housingRoomsValue || housingGuestsValue || housingWifiValue) {
@@ -185,7 +185,7 @@
 
   housingWifi.addEventListener('click', function () {
     housingWifiValue = housingWifi.value;
-    if (housingWifiValue = 'wifi') {
+    if (housingWifiValue === 'wifi') {
       wifiActive = 1;
     } else {
       wifiActive = 0;
