@@ -140,7 +140,6 @@
   });
 
 
-
   window.filter = {
     filteredActivateState: filteredActivateState,
     updatePins: updatePins
