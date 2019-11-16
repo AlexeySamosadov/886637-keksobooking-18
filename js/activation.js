@@ -26,9 +26,19 @@
     return elem.setAttribute('value', cordyX + ', ' + cordyY);
   };
 
+  var removeMapPins = function () {
+    var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    if (mapPins) {
+      for (var i = 0; i < mapPins.length; i++) {
+        mapPins[i].remove();
+      }
+    }
+  };
+
   var fragmentPin = document.createDocumentFragment();
   var activateState = function (appartments) {
     map.classList.remove('map--faded');
+    removeMapPins();
 
     for (var i = 0; i < appartments.length; i++) {
       fragmentPin.appendChild(window.addPin(appartments[i]));
@@ -45,15 +55,11 @@
 
   var deactiveState = function () {
     form.reset();
+    mapPin.addEventListener('click', window.map.onMouseDown);
 
     map.classList.add('map--faded');
-    var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    if (mapPins) {
-      for (var i = 0; i < mapPins.length; i++) {
-        mapPins[i].remove();
-      }
-    }
-    for (i = 0; i < addFormFieldsets.length; i++) {
+    removeMapPins();
+    for (var i = 0; i < addFormFieldsets.length; i++) {
       addFormFieldsets[i].setAttribute('disabled', 'disabled');
     }
 

@@ -8,15 +8,16 @@
   var mapPinCords = window.activation.mapPinCords;
   var mapPinHalfWidth = (mapPinCords.width / 2);
   var mapPinHeight = mapPinCords.height;
+  var filteredActivateState = window.filter.filteredActivateState;
 
   var deactiveState = window.activation.deactiveState;
 
   var findCordination = window.activation.findCordination;
 
-  var activateState = window.activation.activateState;
+  // var activateState = window.activation.activateState;
 
   var onMouseDown = function () {
-    window.backend.load(activateState, window.Message.error);
+    window.backend.load(filteredActivateState, window.Message.error);
 
     mapPin.removeEventListener('click', onMouseDown);
     mapPin.addEventListener('mousedown', onPinHandler);
@@ -52,7 +53,7 @@
 
   mapPin.addEventListener('click', onMouseDown);
   mapPin.addEventListener('keydown', function (evt) {
-    window.util.isEnterEvent(evt, window.backend.load(activateState, window.Message.error));
+    window.util.isEnterEvent(evt, window.backend.load(filteredActivateState, window.Message.error));
   });
 
   window.map = {
