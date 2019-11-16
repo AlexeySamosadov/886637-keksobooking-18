@@ -4,10 +4,10 @@
 (function () {
   var activateState = window.activation.activateState;
   var housings = [];
-  var mapFilter = document.querySelector('.map__filters');
-  var housingType = mapFilter.querySelector('#housing-type');
-  var housingGuests = mapFilter.querySelector('#housing-guests');
-  var housingRooms = mapFilter.querySelector('#housing-rooms');
+  var mapFilters = document.querySelector('.map__filters');
+  var housingType = mapFilters.querySelector('#housing-type');
+  var housingGuests = mapFilters.querySelector('#housing-guests');
+  var housingRooms = mapFilters.querySelector('#housing-rooms');
 
   var filteredActivateState = function (data) {
     housings = data;
@@ -36,7 +36,7 @@
     activateState(data);
   };
 
-  mapFilter.addEventListener('change', updatePins);
+  mapFilters.addEventListener('change', updatePins);
 
   window.filter = {
     filteredActivateState: filteredActivateState,
