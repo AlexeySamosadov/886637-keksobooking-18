@@ -13,12 +13,14 @@
   var mapPinCords = mapPin.getBoundingClientRect();
   var mapPinHalfWidth = (mapPinCords.width / 2);
   var mapPinHeight = mapPinCords.height;
-  var CordPin = {
+  var cordPin = {
     halfWidth: mapPinHalfWidth,
     height: mapPinHeight,
     X: 603,
     Y: 440
   };
+
+  var controls = document.querySelectorAll('.map__filters input, .map__filters  select, .ad-form fieldset');
 
   var housingType = mapFilters.querySelector('#housing-type');
   var housingGuests = mapFilters.querySelector('#housing-guests');
@@ -27,8 +29,8 @@
   var checkboxWifi = mapFilters.querySelectorAll('.map__features input');
 
   var findCordination = function (elem) {
-    var cordyX = Math.round(mapPin.getBoundingClientRect().x - mapCords.left + CordPin.halfWidth);
-    var cordyY = Math.round(mapPin.getBoundingClientRect().y + CordPin.height + pageYOffset);
+    var cordyX = Math.round(mapPin.getBoundingClientRect().x - mapCords.left + cordPin.halfWidth);
+    var cordyY = Math.round(mapPin.getBoundingClientRect().y + cordPin.height + pageYOffset);
     return elem.setAttribute('value', cordyX + ', ' + cordyY);
   };
 
@@ -52,18 +54,19 @@
 
     advertPin.appendChild(fragmentPin);
     for (i = 0; i < addFormFieldsets.length; i++) {
-      addFormFieldsets[i].removeAttribute('disabled', 'disabled');
+      addFormFieldsets[i].removeAttribute('disabled');
     }
     addForm.classList.remove('ad-form--disabled');
     mapFilters.classList.remove('map__filters--disabled');
     // findCordination(inputAdress);
-    housingType.removeAttribute('disabled');
-    housingGuests.removeAttribute('disabled');
-    housingRooms.removeAttribute('disabled');
-    housingPrice.removeAttribute('disabled');
-    for (i = 0; i < checkboxWifi.length; i++) {
-      checkboxWifi[i].removeAttribute('disabled');
-    }
+    // housingType.removeAttribute('disabled');
+    // housingGuests.removeAttribute('disabled');
+    // housingRooms.removeAttribute('disabled');
+    // housingPrice.removeAttribute('disabled');
+
+    controls.forEach(function (item) {
+      item.removeAttribute('disabled');
+    });
   };
 
   var deactiveState = function () {
@@ -77,8 +80,8 @@
       addFormFieldsets[i].setAttribute('disabled', 'disabled');
     }
 
-    mapPin.style.left = CordPin.X - CordPin.halfWidth + 'px';
-    mapPin.style.top = CordPin.Y - CordPin.height + 'px';
+    mapPin.style.left = cordPin.X - cordPin.halfWidth + 'px';
+    mapPin.style.top = cordPin.Y - cordPin.height + 'px';
 
     addForm.classList.add('ad-form--disabled');
     mapFilters.classList.add('map__filters--disabled');

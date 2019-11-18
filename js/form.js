@@ -12,8 +12,8 @@
   var numberGuestValue = +numberGuest.value;
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
-  var successMessage = window.Message.success;
-  var errorMessage = window.Message.error;
+  var successMessage = window.message.success;
+  var errorMessage = window.message.error;
 
   var HousingTypes = {
     FLAT: 1000,
@@ -58,6 +58,6 @@
   });
 
   window.form = {
-    form: form
+    element: form
   };
 })();

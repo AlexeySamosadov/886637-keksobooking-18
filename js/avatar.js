@@ -2,7 +2,7 @@
 
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-  var form = window.form.form;
+  var form = window.form.element;
   var fileChooser = form.querySelector('#avatar');
 
   fileChooser.addEventListener('change', function () {

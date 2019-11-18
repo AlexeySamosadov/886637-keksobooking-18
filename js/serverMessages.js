@@ -46,7 +46,7 @@
     document.addEventListener('click', onClick);
   };
 
-  window.Message = {
+  window.message = {
     error: errorMessage,
     success: successMessage,
   };

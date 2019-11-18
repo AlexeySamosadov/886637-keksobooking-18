@@ -17,7 +17,7 @@
   // var activateState = window.activation.activateState;
 
   var onMouseDown = function () {
-    window.backend.load(filteredActivateState, window.Message.error);
+    window.backend.load(filteredActivateState, window.message.error);
 
     mapPin.removeEventListener('click', onMouseDown);
     mapPin.addEventListener('mousedown', onPinHandler);
@@ -41,11 +41,11 @@
 
     mapPin.style.left = limitedLeft + 'px';
     mapPin.style.top = limitedTop + 'px';
+    findCordination(inputAdress);
   };
 
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
-    findCordination(inputAdress);
 
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
@@ -53,11 +53,11 @@
 
   mapPin.addEventListener('click', onMouseDown);
   mapPin.addEventListener('keydown', function (evt) {
-    window.util.isEnterEvent(evt, window.backend.load(filteredActivateState, window.Message.error));
+    window.util.isEnterEvent(evt, window.backend.load(filteredActivateState, window.message.error));
   });
 
   window.map = {
-    map: map,
+    element: map,
     onMouseDown: onMouseDown
   };
   deactiveState();
