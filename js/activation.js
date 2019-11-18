@@ -37,9 +37,10 @@
   var removeMapPins = function () {
     var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     if (mapPins) {
-      for (var i = 0; i < mapPins.length; i++) {
-        mapPins[i].remove();
-      }
+
+      mapPins.forEach(function (item) {
+        item.remove();
+      });
     }
   };
 
@@ -48,14 +49,16 @@
     map.classList.remove('map--faded');
     removeMapPins();
 
-    for (var i = 0; i < appartments.length; i++) {
-      fragmentPin.appendChild(window.addPin(appartments[i]));
-    }
+    appartments.forEach(function (item) {
+      fragmentPin.appendChild(window.addPin(item));
+    });
 
     advertPin.appendChild(fragmentPin);
-    for (i = 0; i < addFormFieldsets.length; i++) {
-      addFormFieldsets[i].removeAttribute('disabled');
-    }
+
+    addFormFieldsets.forEach(function (item) {
+      item.removeAttribute('disabled');
+    });
+
     addForm.classList.remove('ad-form--disabled');
     mapFilters.classList.remove('map__filters--disabled');
     // findCordination(inputAdress);
@@ -76,9 +79,9 @@
 
     map.classList.add('map--faded');
     removeMapPins();
-    for (var i = 0; i < addFormFieldsets.length; i++) {
-      addFormFieldsets[i].setAttribute('disabled', 'disabled');
-    }
+    addFormFieldsets.forEach(function (item) {
+      item.setAttribute('disabled', 'disabled');
+    });
 
     mapPin.style.left = cordPin.X - cordPin.halfWidth + 'px';
     mapPin.style.top = cordPin.Y - cordPin.height + 'px';
@@ -90,9 +93,10 @@
     housingGuests.setAttribute('disabled', 'disabled');
     housingRooms.setAttribute('disabled', 'disabled');
     housingPrice.setAttribute('disabled', 'disabled');
-    for (i = 0; i < checkboxWifi.length; i++) {
-      checkboxWifi[i].setAttribute('disabled', 'disabled');
-    }
+
+    checkboxWifi.forEach(function (item) {
+      item.setAttribute('disabled', 'disabled');
+    });
   };
 
   window.activation = {

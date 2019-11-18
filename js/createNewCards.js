@@ -45,7 +45,7 @@
 
     popupFeatures.innerHTML = '';
     var fragment = document.createDocumentFragment();
-    // for (var j = 0; j < arr.offer.features.length; j++) {
+
     arr.offer.features.forEach(function (item) {
       var newList = document.createElement('li');
       newList.classList.add('popup__feature');
