@@ -2,12 +2,13 @@
 'use strict';
 
 (function () {
+  var SERVER_CODE_OK = 200;
+  var TIMEOUT = 10000;
   var Url = {
     GET: 'https://js.dump.academy/keksobooking/data',
     POST: 'https://js.dump.academy/keksobooking'
   };
-  var SERVER_CODE_OK = 200;
-  var TIMEOUT = 10000;
+
   var startXhr = function (onSucces, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';

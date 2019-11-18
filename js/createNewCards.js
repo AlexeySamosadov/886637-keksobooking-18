@@ -17,7 +17,7 @@
     document.removeEventListener('keydown', onClosePopup);
   };
   var onClosePopup = function (evt) {
-    window.util.isEscEvent(evt, closePopup());
+    window.util.isEscEvent(evt, closePopup);
   };
 
   window.createNewCards = function (arr) {
@@ -66,6 +66,9 @@
       closePopup();
     });
     document.addEventListener('keydown', onClosePopup);
+
+    var mapFilter = document.querySelector('.map__filters');
+    mapFilter.addEventListener('change', closePopup);
     window.map.map.insertBefore(cardTemple, mapConteiner); // Добавляет карточку на страницу
   };
 })();

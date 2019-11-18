@@ -57,5 +57,7 @@
     window.backend.save(new FormData(form), successMessage, errorMessage);
   });
 
-
+  window.form = {
+    form: form
+  };
 })();

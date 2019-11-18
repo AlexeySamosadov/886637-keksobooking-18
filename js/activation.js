@@ -20,6 +20,12 @@
     Y: 440
   };
 
+  var housingType = mapFilters.querySelector('#housing-type');
+  var housingGuests = mapFilters.querySelector('#housing-guests');
+  var housingRooms = mapFilters.querySelector('#housing-rooms');
+  var housingPrice = mapFilters.querySelector('#housing-price');
+  var checkboxWifi = mapFilters.querySelectorAll('.map__features input');
+
   var findCordination = function (elem) {
     var cordyX = Math.round(mapPin.getBoundingClientRect().x - mapCords.left + CordPin.halfWidth);
     var cordyY = Math.round(mapPin.getBoundingClientRect().y + CordPin.height + pageYOffset);
@@ -50,10 +56,18 @@
     }
     addForm.classList.remove('ad-form--disabled');
     mapFilters.classList.remove('map__filters--disabled');
-    findCordination(inputAdress);
+    // findCordination(inputAdress);
+    housingType.removeAttribute('disabled');
+    housingGuests.removeAttribute('disabled');
+    housingRooms.removeAttribute('disabled');
+    housingPrice.removeAttribute('disabled');
+    for (i = 0; i < checkboxWifi.length; i++) {
+      checkboxWifi[i].removeAttribute('disabled');
+    }
   };
 
   var deactiveState = function () {
+    findCordination(inputAdress);
     form.reset();
     mapPin.addEventListener('click', window.map.onMouseDown);
 
@@ -68,6 +82,14 @@
 
     addForm.classList.add('ad-form--disabled');
     mapFilters.classList.add('map__filters--disabled');
+    mapFilters.setAttribute('disabled', 'disabled');
+    housingType.setAttribute('disabled', 'disabled');
+    housingGuests.setAttribute('disabled', 'disabled');
+    housingRooms.setAttribute('disabled', 'disabled');
+    housingPrice.setAttribute('disabled', 'disabled');
+    for (i = 0; i < checkboxWifi.length; i++) {
+      checkboxWifi[i].setAttribute('disabled', 'disabled');
+    }
   };
 
   window.activation = {
