@@ -21,10 +21,10 @@
   };
 
   window.createNewCards = function (arr) {
-    var cardTemple = document.querySelector('#card').content.cloneNode(true);
-    var mapCard = cardTemple.querySelector('.map__card');
+    var cardTemplate = document.querySelector('#card').content.cloneNode(true);
+    var mapCard = cardTemplate.querySelector('.map__card');
     var popupTitle = mapCard.querySelector('.popup__title');
-    var popupAdress = mapCard.querySelector('.popup__text--address');
+    var popupAddress = mapCard.querySelector('.popup__text--address');
     var popupPrice = mapCard.querySelector('.popup__text--price');
     var popupType = mapCard.querySelector('.popup__type');
     var popupCapacity = mapCard.querySelector('.popup__text--capacity');
@@ -37,7 +37,7 @@
 
     // var newMapCard = mapCard.cloneNode(true);
     popupTitle.textContent = arr.offer.title;
-    popupAdress.textContent = arr.offer.address;
+    popupAddress.textContent = arr.offer.address;
     popupPrice.textContent = arr.offer.price + ' ₽/ночь.';
     popupType.textContent = translateBungaloType(arr.offer.type);
     popupCapacity.textContent = arr.offer.rooms + ' Комнаты для ' + arr.offer.guests + ' Гостей';
@@ -65,7 +65,7 @@
     });
 
     popupAvatar.src = arr.author.avatar;
-    var closeButton = cardTemple.querySelector('.popup__close');
+    var closeButton = cardTemplate.querySelector('.popup__close');
     closeButton.addEventListener('click', function () {
       closePopup();
     });
@@ -73,6 +73,6 @@
 
     var mapFilter = document.querySelector('.map__filters');
     mapFilter.addEventListener('change', closePopup);
-    window.map.element.insertBefore(cardTemple, mapContainer); // Добавляет карточку на страницу
+    window.map.element.insertBefore(cardTemplate, mapContainer); // Добавляет карточку на страницу
   };
 })();
