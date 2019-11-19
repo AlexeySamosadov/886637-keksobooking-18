@@ -2,6 +2,7 @@
 'use strict';
 
 (function () {
+  var DEBOUNCE_INTERVAL = 500;
   var activateState = window.activation.activateState;
   var housings = [];
   var mapFilters = document.querySelector('.map__filters');
@@ -10,8 +11,6 @@
   var housingRooms = mapFilters.querySelector('#housing-rooms');
   var housingPrice = mapFilters.querySelector('#housing-price');
   var checkboxWifi = mapFilters.querySelectorAll('.map__features input');
-
-  var DEBOUNCE_INTERVAL = 500; // ms
 
   var debounce = function (cb) {
     var lastTimeout = null;
@@ -60,7 +59,7 @@
   };
 
   var filters = function (item) {
-    var feauteresArray = item.offer.features;
+    var features = item.offer.features;
     var arr = [];
     arr = Array.from(checkboxWifi).map(function (it) {
       if (it.checked) {
@@ -70,8 +69,9 @@
     }).filter(function (it) {
       return it !== undefined;
     });
+
     return arr.every(function (elem) {
-      return feauteresArray.indexOf(elem) > -1;
+      return features.indexOf(elem) > -1;
     });
   };
 

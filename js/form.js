@@ -5,15 +5,15 @@
   var formSubmit = document.querySelector('.ad-form__submit');
   var priceNumber = document.querySelector('#price');
   var typeNumber = document.querySelector('#type');
-  var inputAdress = document.querySelector('#address');
+  var inputAddress = document.querySelector('#address');
   var numberRoom = document.querySelector('#room_number');
   var numberGuest = document.querySelector('#capacity');
   var numberRoomValue = +numberRoom.value;
   var numberGuestValue = +numberGuest.value;
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
-  var successMessage = window.Message.success;
-  var errorMessage = window.Message.error;
+  var successMessage = window.message.success;
+  var errorMessage = window.message.error;
 
   var HousingTypes = {
     FLAT: 1000,
@@ -53,9 +53,11 @@
 
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    inputAdress.removeAttribute('disabled');
+    inputAddress.removeAttribute('disabled');
     window.backend.save(new FormData(form), successMessage, errorMessage);
   });
 
-
+  window.form = {
+    element: form
+  };
 })();
