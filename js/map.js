@@ -10,9 +10,9 @@
   var mapPinHeight = mapPinCords.height;
   var filteredActivateState = window.filter.filteredActivateState;
 
-  var deactiveState = window.activation.deactiveState;
+  var deactivateState = window.activation.deactivateState;
 
-  var findCordination = window.activation.findCordination;
+  var findCoordinates = window.activation.findCoordinates;
 
   // var activateState = window.activation.activateState;
 
@@ -41,7 +41,7 @@
 
     mapPin.style.left = limitedLeft + 'px';
     mapPin.style.top = limitedTop + 'px';
-    findCordination(inputAdress);
+    findCoordinates(inputAdress);
   };
 
   var onMouseUp = function (upEvt) {
@@ -60,5 +60,5 @@
     element: map,
     onMouseDown: onMouseDown
   };
-  deactiveState();
+  deactivateState();
 })();

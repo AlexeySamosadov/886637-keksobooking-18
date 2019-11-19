@@ -36,6 +36,7 @@
 
   appartmentChoser.addEventListener('change', function () {
     // appartmentChoser.files.forEach(function (item) {  var file = item;   Тут как то не понимаю как запустить в цикле загрузку нескольких фото - по одному загрузка работает можно загружать несколько фото по очеререди.
+
     var file = appartmentChoser.files[0];
 
     if (file) {
@@ -60,6 +61,7 @@
         reader.readAsDataURL(file);
       }
     }
+
   });
   // });
 })();

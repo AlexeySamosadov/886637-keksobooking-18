@@ -23,7 +23,7 @@
       errorTemplate.remove();
     };
 
-    window.activation.deactiveState();
+    window.activation.deactivateState();
 
     document.addEventListener('keydown', onPopupEscPress);
     errorButton.addEventListener('click', onClick);
@@ -39,7 +39,7 @@
       successTemplate.remove();
     };
 
-    window.activation.deactiveState();
+    window.activation.deactivateState();
 
     document.body.appendChild(successTemplate);
     document.addEventListener('keydown', onPopupEscPress);

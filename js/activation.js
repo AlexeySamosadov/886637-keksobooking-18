@@ -14,16 +14,16 @@
   var mapPinCords = mapPin.getBoundingClientRect();
   var mapPinHalfWidth = (mapPinCords.width / 2);
   var mapPinHeight = mapPinCords.height;
-  var cordPin = {
+  var pinCordinates = {
     halfWidth: mapPinHalfWidth,
     height: mapPinHeight,
     X: 603,
     Y: 440
   };
 
-  var findCordination = function (elem) {
-    var cordyX = Math.round(mapPin.getBoundingClientRect().x - mapCords.left + cordPin.halfWidth);
-    var cordyY = Math.round(mapPin.getBoundingClientRect().y + cordPin.height + pageYOffset);
+  var findCoordinates = function (elem) {
+    var cordyX = Math.round(mapPin.getBoundingClientRect().x - mapCords.left + pinCordinates.halfWidth);
+    var cordyY = Math.round(mapPin.getBoundingClientRect().y + pinCordinates.height + pageYOffset);
     return elem.setAttribute('value', cordyX + ', ' + cordyY);
   };
 
@@ -38,11 +38,11 @@
   };
 
   var fragmentPin = document.createDocumentFragment();
-  var activateState = function (appartments) {
+  var activateState = function (apartments) {
     map.classList.remove('map--faded');
     removeMapPins();
 
-    appartments.forEach(function (item) {
+    apartments.forEach(function (item) {
       fragmentPin.appendChild(window.addPin(item));
     });
 
@@ -59,8 +59,8 @@
     });
   };
 
-  var deactiveState = function () {
-    findCordination(inputAdress);
+  var deactivateState = function () {
+    findCoordinates(inputAdress);
     form.reset();
     mapPin.addEventListener('click', window.map.onMouseDown);
 
@@ -70,8 +70,8 @@
       item.setAttribute('disabled', 'disabled');
     });
 
-    mapPin.style.left = cordPin.X - cordPin.halfWidth + 'px';
-    mapPin.style.top = cordPin.Y - cordPin.height + 'px';
+    mapPin.style.left = pinCordinates.X - pinCordinates.halfWidth + 'px';
+    mapPin.style.top = pinCordinates.Y - pinCordinates.height + 'px';
 
     addForm.classList.add('ad-form--disabled');
     mapFilters.classList.add('map__filters--disabled');
@@ -82,11 +82,11 @@
   };
 
   window.activation = {
-    deactiveState: deactiveState,
+    deactivateState: deactivateState,
     activateState: activateState,
     inputAdress: inputAdress,
     mapCords: mapCords,
-    findCordination: findCordination,
+    findCoordinates: findCoordinates,
     mapPin: mapPin,
     map: map,
     mapPinCords: mapPinCords,
