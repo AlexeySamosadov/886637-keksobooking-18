@@ -11,9 +11,9 @@
   var advertPin = document.querySelector('.map__pins');
   var mapFilters = document.querySelector('.map__filters');
   var mapCords = map.getBoundingClientRect();
-  var mapPinCords = mapPin.getBoundingClientRect();
-  var mapPinHalfWidth = (mapPinCords.width / 2);
-  var mapPinHeight = mapPinCords.height;
+  var mapPinCordinates = mapPin.getBoundingClientRect();
+  var mapPinHalfWidth = (mapPinCordinates.width / 2);
+  var mapPinHeight = mapPinCordinates.height;
   var pinCordinates = {
     halfWidth: mapPinHalfWidth,
     height: mapPinHeight,
@@ -89,6 +89,6 @@
     findCoordinates: findCoordinates,
     mapPin: mapPin,
     map: map,
-    mapPinCords: mapPinCords,
+    mapPinCordinates: mapPinCordinates,
   };
 })();

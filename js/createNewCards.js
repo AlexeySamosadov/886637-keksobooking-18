@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var mapConteiner = window.map.element.querySelector('.map__filters-container');
+  var mapContainer = window.map.element.querySelector('.map__filters-container');
   var FlatTypes = {
     FLAT: 'Квартира',
     PALACE: 'Дворец',
@@ -73,6 +73,6 @@
 
     var mapFilter = document.querySelector('.map__filters');
     mapFilter.addEventListener('change', closePopup);
-    window.map.element.insertBefore(cardTemple, mapConteiner); // Добавляет карточку на страницу
+    window.map.element.insertBefore(cardTemple, mapContainer); // Добавляет карточку на страницу
   };
 })();

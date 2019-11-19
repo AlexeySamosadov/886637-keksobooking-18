@@ -5,9 +5,9 @@
   var mapPin = window.activation.mapPin;
   var inputAdress = window.activation.inputAdress;
   var mapCords = window.activation.mapCords;
-  var mapPinCords = window.activation.mapPinCords;
-  var mapPinHalfWidth = (mapPinCords.width / 2);
-  var mapPinHeight = mapPinCords.height;
+  var mapPinCordinates = window.activation.mapPinCordinates;
+  var mapPinHalfWidth = (mapPinCordinates.width / 2);
+  var mapPinHeight = mapPinCordinates.height;
   var filteredActivateState = window.filter.filteredActivateState;
 
   var deactivateState = window.activation.deactivateState;
