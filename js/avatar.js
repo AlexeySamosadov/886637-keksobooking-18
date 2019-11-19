@@ -6,7 +6,7 @@
   var avatarChooser = form.querySelector('#avatar');
   var preview = form.querySelector('.ad-form-header__preview img');
 
-  var appartmentChoser = form.querySelector('#images');
+  var apartmentChooser = form.querySelector('#images');
   var formPhoto = form.querySelector('.ad-form__photo');
   var formPhotoContainer = form.querySelector('.ad-form__photo-container');
 
@@ -46,8 +46,8 @@
     formPhotoContainer.appendChild(div);
   };
 
-  appartmentChoser.addEventListener('change', function () {
-    var files = Array.from(appartmentChoser.files);
+  apartmentChooser.addEventListener('change', function () {
+    var files = Array.from(apartmentChooser.files);
 
     files.forEach(function (item) {
       var file = item;
