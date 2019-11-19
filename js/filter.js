@@ -59,7 +59,7 @@
   };
 
   var filters = function (item) {
-    var feauteres = item.offer.features;
+    var features = item.offer.features;
     var arr = [];
     arr = Array.from(checkboxWifi).map(function (it) {
       if (it.checked) {
@@ -71,7 +71,7 @@
     });
 
     return arr.every(function (elem) {
-      return feauteres.indexOf(elem) > -1;
+      return features.indexOf(elem) > -1;
     });
   };
 
