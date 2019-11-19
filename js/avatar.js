@@ -34,34 +34,37 @@
 
   // var imageFragment = document.createDocumentFragment();
 
+  var reader;
+  var onLoad = function () {
+    var image = document.createElement('img');
+    image.src = reader.result;
+    image.width = 70;
+    image.height = 70;
+    // imageFragment.appendChild(image);
+    formPhoto.appendChild(image);
+  };
+
   appartmentChoser.addEventListener('change', function () {
-    // appartmentChoser.files.forEach(function (item) {  var file = item;   Тут как то не понимаю как запустить в цикле загрузку нескольких фото - по одному загрузка работает можно загружать несколько фото по очеререди.
+    var files = Array.from(appartmentChoser.files);
 
-    var file = appartmentChoser.files[0];
+    files.forEach(function (item) {
+      var file = item;
 
-    if (file) {
-      var fileName = file.name.toLowerCase();
+      if (file) {
+        var fileName = file.name.toLowerCase();
 
-      var matches = FILE_TYPES.some(function (it) {
-        return fileName.endsWith(it);
-      });
-
-      if (matches) {
-        var reader = new FileReader();
-
-        reader.addEventListener('load', function () {
-          var image = document.createElement('img');
-          image.src = reader.result;
-          image.width = 70;
-          image.height = 70;
-          // imageFragment.appendChild(image);
-          formPhoto.appendChild(image);
+        var matches = FILE_TYPES.some(function (it) {
+          return fileName.endsWith(it);
         });
 
-        reader.readAsDataURL(file);
-      }
-    }
+        if (matches) {
+          reader = new FileReader();
 
+          reader.addEventListener('load', onLoad);
+
+          reader.readAsDataURL(file);
+        }
+      }
+    });
   });
-  // });
 })();
