@@ -7,7 +7,7 @@
   var mapPin = document.querySelector('.map__pin--main');
   var addForm = document.querySelector('.ad-form');
   var addFormFieldsets = addForm.querySelectorAll('fieldset');
-  var inputAdress = document.querySelector('#address');
+  var inputAddress = document.querySelector('#address');
   var advertPin = document.querySelector('.map__pins');
   var mapFilters = document.querySelector('.map__filters');
   var mapCords = map.getBoundingClientRect();
@@ -60,7 +60,7 @@
   };
 
   var deactivateState = function () {
-    findCoordinates(inputAdress);
+    findCoordinates(inputAddress);
     form.reset();
     mapPin.addEventListener('click', window.map.onMouseDown);
 
@@ -84,7 +84,7 @@
   window.activation = {
     deactivateState: deactivateState,
     activateState: activateState,
-    inputAdress: inputAdress,
+    inputAddress: inputAddress,
     mapCords: mapCords,
     findCoordinates: findCoordinates,
     mapPin: mapPin,

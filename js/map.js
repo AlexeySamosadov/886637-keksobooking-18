@@ -3,7 +3,7 @@
 (function () {
   var map = window.activation.map;
   var mapPin = window.activation.mapPin;
-  var inputAdress = window.activation.inputAdress;
+  var inputAddress = window.activation.inputAddress;
   var mapCords = window.activation.mapCords;
   var mapPinCordinates = window.activation.mapPinCordinates;
   var mapPinHalfWidth = (mapPinCordinates.width / 2);
@@ -41,7 +41,7 @@
 
     mapPin.style.left = limitedLeft + 'px';
     mapPin.style.top = limitedTop + 'px';
-    findCoordinates(inputAdress);
+    findCoordinates(inputAddress);
   };
 
   var onMouseUp = function (upEvt) {
