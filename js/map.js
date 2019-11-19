@@ -34,7 +34,7 @@
     moveEvt.preventDefault();
 
     var left = moveEvt.pageX - mapCords.left - mapPinHalfWidth;
-    var top = moveEvt.pageY - (mapPinHeight * 1.25);
+    var top = moveEvt.pageY - (mapPinHeight / 2 * 1.25);
 
     var limitedLeft = Math.min(mapCords.width - mapPinHalfWidth, Math.max(mapPinHalfWidth * (-1), left));
     var limitedTop = Math.min(630 - mapPinHeight, Math.max(130 - mapPinHeight, top));
