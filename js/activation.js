@@ -2,6 +2,7 @@
 
 (function () {
   var form = document.querySelector('.ad-form');
+  var controls = document.querySelectorAll('.map__filters input, .map__filters  select, .ad-form fieldset');
   var map = document.querySelector('.map');
   var mapPin = document.querySelector('.map__pin--main');
   var addForm = document.querySelector('.ad-form');
@@ -19,14 +20,6 @@
     X: 603,
     Y: 440
   };
-
-  var controls = document.querySelectorAll('.map__filters input, .map__filters  select, .ad-form fieldset');
-
-  var housingType = mapFilters.querySelector('#housing-type');
-  var housingGuests = mapFilters.querySelector('#housing-guests');
-  var housingRooms = mapFilters.querySelector('#housing-rooms');
-  var housingPrice = mapFilters.querySelector('#housing-price');
-  var checkboxWifi = mapFilters.querySelectorAll('.map__features input');
 
   var findCordination = function (elem) {
     var cordyX = Math.round(mapPin.getBoundingClientRect().x - mapCords.left + cordPin.halfWidth);
@@ -61,12 +54,6 @@
 
     addForm.classList.remove('ad-form--disabled');
     mapFilters.classList.remove('map__filters--disabled');
-    // findCordination(inputAdress);
-    // housingType.removeAttribute('disabled');
-    // housingGuests.removeAttribute('disabled');
-    // housingRooms.removeAttribute('disabled');
-    // housingPrice.removeAttribute('disabled');
-
     controls.forEach(function (item) {
       item.removeAttribute('disabled');
     });
@@ -88,13 +75,8 @@
 
     addForm.classList.add('ad-form--disabled');
     mapFilters.classList.add('map__filters--disabled');
-    mapFilters.setAttribute('disabled', 'disabled');
-    housingType.setAttribute('disabled', 'disabled');
-    housingGuests.setAttribute('disabled', 'disabled');
-    housingRooms.setAttribute('disabled', 'disabled');
-    housingPrice.setAttribute('disabled', 'disabled');
 
-    checkboxWifi.forEach(function (item) {
+    controls.forEach(function (item) {
       item.setAttribute('disabled', 'disabled');
     });
   };
