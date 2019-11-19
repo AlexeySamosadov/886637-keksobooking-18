@@ -8,6 +8,7 @@
 
   var appartmentChoser = form.querySelector('#images');
   var formPhoto = form.querySelector('.ad-form__photo');
+  var formPhotoContainer = form.querySelector('.ad-form__photo-container');
 
 
   avatarChooser.addEventListener('change', function () {
@@ -32,16 +33,17 @@
     }
   });
 
-  // var imageFragment = document.createDocumentFragment();
-
   var reader;
   var onLoad = function () {
+    formPhoto.remove();
+    var div = document.createElement('div');
+    div.classList.add('ad-form__photo');
     var image = document.createElement('img');
     image.src = reader.result;
     image.width = 70;
     image.height = 70;
-    // imageFragment.appendChild(image);
-    formPhoto.appendChild(image);
+    div.appendChild(image);
+    formPhotoContainer.appendChild(div);
   };
 
   appartmentChoser.addEventListener('change', function () {
