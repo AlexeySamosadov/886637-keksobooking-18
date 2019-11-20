@@ -60,9 +60,9 @@
   };
 
   var deactivateState = function () {
-    findCoordinates(inputAddress);
     form.reset();
     mapFilters.reset();
+
     mapPin.addEventListener('click', window.map.onMouseDown);
 
     map.classList.add('map--faded');
@@ -80,6 +80,7 @@
     controls.forEach(function (item) {
       item.setAttribute('disabled', 'disabled');
     });
+    findCoordinates(inputAddress);
   };
 
   window.activation = {
