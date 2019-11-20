@@ -33,9 +33,9 @@
 
   var reader;
   var onLoad = function () {
-    var test = document.querySelector('.ad-form__photo:not(.ad-form__photo--full)');
-    if (test) {
-      test.remove();
+    var emptyContainer = document.querySelector('.ad-form__photo:not(.ad-form__photo--full)');
+    if (emptyContainer) {
+      emptyContainer.remove();
     }
 
     var div = document.createElement('div');

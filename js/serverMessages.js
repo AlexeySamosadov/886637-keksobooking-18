@@ -35,6 +35,7 @@
     var errorTemplate = error.cloneNode(true);
     document.body.appendChild(errorTemplate);
     var errorButton = errorTemplate.querySelector('.error__button');
+    errorButton.setAttribute('tabindex', '1');
     resetImages();
     closePopup = function () {
       errorTemplate.remove();
