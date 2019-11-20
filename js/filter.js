@@ -58,28 +58,22 @@
     return +housingRooms.value === item.offer.rooms || housingRooms.value === 'any';
   };
 
-  var filters = function (item) {
-    var features = item.offer.features;
-    var arr = [];
-    arr = Array.from(checkboxWifi).map(function (it) {
-      if (it.checked) {
-        return it.value;
-      }
-      return undefined;
-    }).filter(function (it) {
-      return it !== undefined;
+  var filterFeatures = function (item) {
+    var feauteresArray = item.offer.features;
+    var checkboxes = [];
+    checkboxWifi.forEach(function (it) {
+      return it.checked && checkboxes.push(it.value);
     });
-
-    return arr.every(function (elem) {
-      return features.indexOf(elem) > -1;
+    checkboxes = checkboxes.every(function (elem) {
+      return feauteresArray.indexOf(elem) > -1;
     });
+    return checkboxes;
   };
-
 
   var updatePins = function () {
 
     var data = housings.filter(function (item) {
-      return filterByHousingType(item) && filterByPrice(item) && filterByGuests(item) && filterByRooms(item) && filters(item);
+      return filterByHousingType(item) && filterByPrice(item) && filterByGuests(item) && filterByRooms(item) && filterFeatures(item);
     }).slice(0, 5);
 
     activateState(data);

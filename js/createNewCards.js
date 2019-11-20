@@ -13,11 +13,25 @@
   };
 
   var closePopup = function () {
-    document.querySelector('.popup').remove();
+    if (document.querySelector('.popup')) {
+      document.querySelector('.popup').remove();
+    }
     document.removeEventListener('keydown', onClosePopup);
   };
   var onClosePopup = function (evt) {
     window.util.isEscEvent(evt, closePopup);
+  };
+
+  var getFeatures = function (data) {
+    var fragmentFeatures = document.createDocumentFragment();
+
+    data.offer.features.forEach(function (item) {
+      var newList = document.createElement('li');
+      newList.classList.add('popup__feature');
+      newList.classList.add('popup__feature--' + item);
+      fragmentFeatures.appendChild(newList);
+    });
+    return fragmentFeatures;
   };
 
   window.createNewCards = function (arr) {
@@ -35,7 +49,6 @@
     var popupPhoto = popupPhotos.querySelector('.popup__photo');
     var popupAvatar = mapCard.querySelector('.popup__avatar');
 
-    // var newMapCard = mapCard.cloneNode(true);
     popupTitle.textContent = arr.offer.title;
     popupAddress.textContent = arr.offer.address;
     popupPrice.textContent = arr.offer.price + ' ₽/ночь.';
@@ -44,25 +57,18 @@
     popupTime.textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
 
     popupFeatures.innerHTML = '';
-    var fragment = document.createDocumentFragment();
-
-    arr.offer.features.forEach(function (item) {
-      var newList = document.createElement('li');
-      newList.classList.add('popup__feature');
-      newList.classList.add('popup__feature--' + item);
-      fragment.appendChild(newList);
-    });
-    popupFeatures.appendChild(fragment);
+    popupFeatures.appendChild(getFeatures(arr));
     popupDescription.textContent = arr.offer.description;
 
     popupPhotos.innerHTML = '';
-
+    var fragment = document.createDocumentFragment();
     arr.offer.photos.forEach(function (item) {
       var newPhoto = popupPhoto.cloneNode(true);
       newPhoto.src = item;
       newPhoto.alt = arr.offer.title;
-      popupPhotos.appendChild(newPhoto);
+      fragment.appendChild(newPhoto);
     });
+    popupPhotos.appendChild(fragment);
 
     popupAvatar.src = arr.author.avatar;
     var closeButton = cardTemplate.querySelector('.popup__close');
@@ -73,6 +79,6 @@
 
     var mapFilter = document.querySelector('.map__filters');
     mapFilter.addEventListener('change', closePopup);
-    window.map.element.insertBefore(cardTemplate, mapContainer); // Добавляет карточку на страницу
+    window.map.element.insertBefore(cardTemplate, mapContainer);
   };
 })();

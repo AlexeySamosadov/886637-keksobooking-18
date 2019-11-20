@@ -5,16 +5,14 @@
   var mapPin = window.activation.mapPin;
   var inputAddress = window.activation.inputAddress;
   var mapCords = window.activation.mapCords;
-  var mapPinCordinates = window.activation.mapPinCordinates;
-  var mapPinHalfWidth = (mapPinCordinates.width / 2);
-  var mapPinHeight = mapPinCordinates.height;
+  var mapPinCoordinates = window.activation.mapPinCoordinates;
+  var mapPinHalfWidth = (mapPinCoordinates.width / 2);
+  var mapPinHeight = mapPinCoordinates.height;
   var filteredActivateState = window.filter.filteredActivateState;
 
   var deactivateState = window.activation.deactivateState;
 
   var findCoordinates = window.activation.findCoordinates;
-
-  // var activateState = window.activation.activateState;
 
   var onMouseDown = function () {
     window.backend.load(filteredActivateState, window.message.error);

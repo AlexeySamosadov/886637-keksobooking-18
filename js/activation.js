@@ -11,10 +11,10 @@
   var advertPin = document.querySelector('.map__pins');
   var mapFilters = document.querySelector('.map__filters');
   var mapCords = map.getBoundingClientRect();
-  var mapPinCordinates = mapPin.getBoundingClientRect();
-  var mapPinHalfWidth = (mapPinCordinates.width / 2);
-  var mapPinHeight = mapPinCordinates.height;
-  var pinCordinates = {
+  var mapPinCoordinates = mapPin.getBoundingClientRect();
+  var mapPinHalfWidth = (mapPinCoordinates.width / 2);
+  var mapPinHeight = mapPinCoordinates.height;
+  var pinCoordinates = {
     halfWidth: mapPinHalfWidth,
     height: mapPinHeight,
     X: 603,
@@ -22,8 +22,8 @@
   };
 
   var findCoordinates = function (elem) {
-    var cordyX = Math.round(mapPin.getBoundingClientRect().x - mapCords.left + pinCordinates.halfWidth);
-    var cordyY = Math.round(mapPin.getBoundingClientRect().y + pinCordinates.height + pageYOffset);
+    var cordyX = Math.round(mapPin.getBoundingClientRect().x - mapCords.left + pinCoordinates.halfWidth);
+    var cordyY = Math.round(mapPin.getBoundingClientRect().y + pinCoordinates.height + pageYOffset);
     return elem.setAttribute('value', cordyX + ', ' + cordyY);
   };
 
@@ -70,8 +70,8 @@
       item.setAttribute('disabled', 'disabled');
     });
 
-    mapPin.style.left = pinCordinates.X - pinCordinates.halfWidth + 'px';
-    mapPin.style.top = pinCordinates.Y - pinCordinates.height + 'px';
+    mapPin.style.left = pinCoordinates.X - pinCoordinates.halfWidth + 'px';
+    mapPin.style.top = pinCoordinates.Y - pinCoordinates.height + 'px';
 
     addForm.classList.add('ad-form--disabled');
     mapFilters.classList.add('map__filters--disabled');
@@ -89,6 +89,6 @@
     findCoordinates: findCoordinates,
     mapPin: mapPin,
     map: map,
-    mapPinCordinates: mapPinCordinates,
+    mapPinCoordinates: mapPinCoordinates,
   };
 })();

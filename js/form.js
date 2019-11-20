@@ -8,8 +8,6 @@
   var inputAddress = document.querySelector('#address');
   var numberRoom = document.querySelector('#room_number');
   var numberGuest = document.querySelector('#capacity');
-  var numberRoomValue = +numberRoom.value;
-  var numberGuestValue = +numberGuest.value;
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
   var successMessage = window.message.success;
@@ -28,11 +26,13 @@
   };
 
   var onErrorRoomGuest = function () {
+    var numberRoomValue = parseInt(numberRoom.value, 10);
+    var numberGuestValue = parseInt(numberGuest.value, 10);
     numberRoom.setCustomValidity('');
     numberGuest.setCustomValidity('');
     if ((numberRoomValue === 100 && numberGuestValue !== 0) || (numberRoomValue !== 100 && numberGuestValue === 0)) {
       numberRoom.setCustomValidity('Количество комнат не соответсвует количеству гостей');
-    } else if (+numberRoom.value < numberGuestValue) { // Почему-то выдает ошибку если использоват тут переменную numberRoomValue
+    } else if (numberRoomValue < numberGuestValue) {
       numberRoom.setCustomValidity('Количество комнат не соответсвует количеству гостей');
     }
   };
