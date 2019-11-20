@@ -5,10 +5,8 @@
   var form = window.form.element;
   var avatarChooser = form.querySelector('#avatar');
   var preview = form.querySelector('.ad-form-header__preview img');
-
   var apartmentChooser = form.querySelector('#images');
-  var formPhoto = form.querySelector('.ad-form__photo');
-  var formPhotoContainer = form.querySelector('.ad-form__photo-container');
+  var addFormUpload = form.querySelector('.ad-form__upload');
 
 
   avatarChooser.addEventListener('change', function () {
@@ -35,15 +33,20 @@
 
   var reader;
   var onLoad = function () {
-    formPhoto.remove();
+    var test = document.querySelector('.ad-form__photo:not(.ad-form__photo--full)');
+    if (test) {
+      test.remove();
+    }
+
     var div = document.createElement('div');
     div.classList.add('ad-form__photo');
+    div.classList.add('ad-form__photo--full');
     var image = document.createElement('img');
     image.src = reader.result;
     image.width = 70;
     image.height = 70;
     div.appendChild(image);
-    formPhotoContainer.appendChild(div);
+    addFormUpload.insertAdjacentElement('afterend', div);
   };
 
   apartmentChooser.addEventListener('change', function () {
@@ -69,5 +72,4 @@
       }
     });
   });
-
 })();
