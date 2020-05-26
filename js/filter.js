@@ -9,6 +9,7 @@
   var housingType = mapFilters.querySelector('#housing-type');
   var housingGuests = mapFilters.querySelector('#housing-guests');
   var housingRooms = mapFilters.querySelector('#housing-rooms');
+
   var housingPrice = mapFilters.querySelector('#housing-price');
   var checkboxWifi = mapFilters.querySelectorAll('.map__features input');
 
@@ -25,6 +26,7 @@
       }, DEBOUNCE_INTERVAL);
     };
   };
+
 
   var filteredActivateState = function (data) {
     housings = data;
