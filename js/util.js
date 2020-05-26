@@ -1,19 +1,19 @@
 'use strict';
 
 (function () {
-  var BUTTON_NUMBER = {
+  var ButtonNumber = {
     ENTER: 13,
     ESC: 27
   };
 
   var isEscEvent = function (evt, action) {
-    if (evt.keyCode === BUTTON_NUMBER.ESC) {
+    if (evt.keyCode === ButtonNumber.ESC) {
       action();
     }
   };
 
   var isEnterEvent = function (evt, action) {
-    if (evt.keyCode === BUTTON_NUMBER.ENTER) {
+    if (evt.keyCode === ButtonNumber.ENTER) {
       action();
     }
   };
